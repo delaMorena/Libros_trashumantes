@@ -52,7 +52,10 @@ class Packages(db.Model):
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
     last_owner_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_tittle = db.Column(db.String(120), unique=True)
-    suitable_age =  db.Column(db.String(120))
+    suitable_ages =  db.Column(db.String(120))
+    subject = db.Column(db.String(120))
+    reserved_status = db.Column(db.String(120))
+    date_reservation = db.Column(db.String(120))
     package_description = db.Column(db.text, nullable=False)
 
     users = db.relationship("Users")
