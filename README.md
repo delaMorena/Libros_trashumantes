@@ -1,3 +1,5 @@
+Proyecto creado para suplir la falta de acceso a las bibliotecas de los pueblos pertenecientes a la Comarca Alto Gállego debido a los efectos que el coronavirus ha tenido. Con este proyecto pretendemos dar acceso a literatura de calidad y hacerla accesible a las poblaciones mas apartadas de centros urbanos.
+
 # WebApp boilerplate with React JS
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
 
