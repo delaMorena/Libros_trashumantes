@@ -173,5 +173,5 @@ class Reviews(db.Model):
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
-
+#### anotación escrita en visual
 
