@@ -174,4 +174,5 @@ class Reviews(db.Model):
             # al probar en insomnia me daba error porque es campo nullable = False
         }
 #### anotación escrita en visual
+### anotación escrita en visual 
 
