@@ -50,11 +50,10 @@ class Packages(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
-    last_owner_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_tittle = db.Column(db.String(120), unique=True)
     suitable_ages =  db.Column(db.String(120))
     subject = db.Column(db.String(120))
-    reserved_status = db.Column(db.String(120))
+    reserved_status = db.Column(db.Boolean Nullable=False)
     date_reservation = db.Column(db.String(120))
     package_description = db.Column(db.text, nullable=False)
 
@@ -82,7 +81,7 @@ class Packages(db.Model):
         }
 
 
-class Conections(db.Model):
+class Connections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
@@ -122,6 +121,7 @@ class Leandings(db.Model):
     deleted_at = db.Column(db.DateTime) 
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_id = db.Column(db.Integer, ForeignKey('packages.id'))
+    returning_date = db.Column(db.DateTime)
 
     users = db.relationship("Users")
     packages = db.relationship("Packages")
@@ -153,6 +153,33 @@ class Reviews(db.Model):
     deleted_at = db.Column(db.DateTime) 
     writer_revies_id = db.Column(db.Integer, ForeignKey('users.id'))
     book_reviewed_id = db.Column(db.Integer, ForeignKey('books.id'))
+    text_review = db.Column(db.text, nullable=False)
+
+    users = db.relationship("Users")
+    books = db.relationship("Books")
+
+
+    def __str__(self):
+        return '{} <{}>' .format(self.created_at, self.book_reviewed_id, self.writer_revies_id)
+    
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "deleted_at": self.deleted_at,
+            "writer_revies": self.user_id,
+            "book_reviewed": self.books_id,
+            "text_review": self.text_review
+        }
+class Ratings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, server_default=func.now())
+    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
+    deleted_at = db.Column(db.DateTime) 
+    user_rating_id = db.Column(db.Integer, ForeignKey('users.id'))
+    package_rating_id = db.Column(db.Integer, ForeignKey('packages.id'))
 
     users = db.relationship("Users")
     books = db.relationship("Books")
@@ -170,9 +197,5 @@ class Reviews(db.Model):
             "deleted_at": self.deleted_at,
             "writer_revies": self.user_id,
             "book_reviewed": self.books_id
-            # "password": self.password 
-            # al probar en insomnia me daba error porque es campo nullable = False
         }
-#### anotación escrita en visual
-### anotación escrita en visual 
 
