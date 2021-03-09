@@ -5,12 +5,14 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, Users, Packages, Connections, Leandings, Reviews, Ratings
 from api.utils import generate_sitemap, APIException
 
+
 api = Blueprint('api', __name__)
 
 ############################ ENPOINTS #################################
 
 ################################# USERS #################################
 
+print('Hello World')
 
 @api.route("/users", methods=["POST"])
 def handle_create_user():
@@ -75,8 +77,23 @@ def handle_get_one_connections(id):
 # PUT
 
 ################################# REVIEWS #################################
-# POST
-# GET all/one
+#create a review
+@api.route("/reviews", methods=["POST"])
+def handle_create_review():
+    user = authorized_user()
+
+    payload= request.get_json()
+    payload["user_id"] = user.id
+    reviews = Reviews(**payload)
+
+    db.session.add(reviews)
+    db.session.commit()
+
+    return jsonify(reviews.serialize()), 201
+
+# GET all reviews from a book
+@api.route('/books/<int:commerce_id>/reviews', methods=['GET'])
+
 # PUT
 
 ################################# RATINGS #################################
