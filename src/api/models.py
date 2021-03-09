@@ -208,7 +208,7 @@ class Books(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime)
-    title = db.Column(db.String(200), nullable=False))
+    title = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(80), nullable=False))
     suitable_ages = db.Column(db.String(120), nullable=False)
     pages = db.Column(db.String(100))
