@@ -18,12 +18,12 @@ class Users(db.Model):
     dni = db.Column(db.Integer, unique=True, nullable=False)
     village =  db.Column(db.String(120), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    conection_id = db.Column(db.Integer, ForeignKey('conections.id'))
+    conection_id = db.Column(db.Integer, ForeignKey('connections.id'))
 
-    conections = db.relationship("Conections")
-    # reviews = db.relationship("Reviews")
-    # packages = db.relationship("Packages")
-    # leandings = db.relationship("Leandings")
+    connections = db.relationship("Connections")
+    reviews = db.relationship("Reviews")
+    packages = db.relationship("Packages")
+    leandings = db.relationship("Leandings")
 
 
     def __str__(self):
@@ -51,12 +51,13 @@ class Packages(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_tittle = db.Column(db.String(120), unique=True)
     suitable_ages =  db.Column(db.String(120))
     subject = db.Column(db.String(120))
-    reserved_status = db.Column(db.Boolean Nullable=False)
+    reserved_status = db.Column(db.Boolean(), nullable=False)
     date_reservation = db.Column(db.String(120))
-    package_description = db.Column(db.text, nullable=False)
+    package_description = db.Column(db.Text, nullable=False)
 
     users = db.relationship("Users")
     books = db.relationship("Books")
@@ -154,7 +155,7 @@ class Reviews(db.Model):
     deleted_at = db.Column(db.DateTime) 
     writer_revies_id = db.Column(db.Integer, ForeignKey('users.id'))
     book_reviewed_id = db.Column(db.Integer, ForeignKey('books.id'))
-    text_review = db.Column(db.text, nullable=False)
+    text_review = db.Column(db.Text, nullable=False)
 
     users = db.relationship("Users")
     books = db.relationship("Books")
@@ -183,7 +184,7 @@ class Ratings(db.Model):
     package_rating_id = db.Column(db.Integer, ForeignKey('packages.id'))
 
     users = db.relationship("Users")
-    books = db.relationship("Books")
+    packages = db.relationship("Packages")
 
 
     def __str__(self):

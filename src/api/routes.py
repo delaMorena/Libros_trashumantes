@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import datetime
 import hashlib
 import hmac
-import jwt
+# import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
 from api.models import db, Users, Packages, Connections, Leandings, Reviews, Ratings
