@@ -171,7 +171,7 @@ class Reviews(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "writer_revies": self.user_id,
+            "writer_reviews": self.user_id,
             "book_reviewed": self.books_id,
             "text_review": self.text_review
         }

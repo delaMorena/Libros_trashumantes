@@ -240,7 +240,7 @@ def handle_list_leanding_from_a_package(id):
 def handle_create_review():
     user = authorized_user()
 
-    payload= request.get_json()
+    payload = request.get_json()
     payload["user_id"] = user.id
     reviews = Reviews(**payload)
 
@@ -250,7 +250,14 @@ def handle_create_review():
     return jsonify(reviews.serialize()), 201
 
 # GET all reviews from a book
-@api.route('/books/<int:commerce_id>/reviews', methods=['GET'])
+@api.route('/books/reviews/<int:book_id>', methods=['GET'])
+def handle_get_list_of_reviews(book_id):
+    reviews = []
+
+    for review in  Reviews.query.filter_by(book_id = book_id, deleted_at=None):
+        reviews.append(review.serialize())
+
+    return jsonify(reviews), 200
 
 # PUT
 
