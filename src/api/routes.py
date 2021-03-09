@@ -259,7 +259,25 @@ def handle_get_list_of_reviews(book_id):
 
     return jsonify(reviews), 200
 
-# PUT
+# GET one review from a book, pienso que se utilizaría cuando un usuario quiera ver sus comentarios de un libro en específico
+@api.route('/books/review/<int:book_id>', methods=['GET'])
+def handle_get_one_review(book_id):
+    user = authorized_user()
+
+    review = Reviews.query.filter_by(book_id = book_id, user_id = user.id, deleted_at = None).first()
+    
+    if not review:
+        abort(404)
+
+    if review.deleted_at:
+        abort(401)
+
+    return jsonify(review.serialize()), 200
+
+# PUT ¿lo necesitamos?
+# DELETE ¿lo necesitamos?
+################################# BOOKS #################################
+
 
 ################################# RATINGS #################################
 # POST
