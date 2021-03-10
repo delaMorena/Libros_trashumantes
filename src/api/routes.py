@@ -67,7 +67,7 @@ def handle_create_user():
 
     return jsonify(user.serialize()), 201
 
-@api.route("/login", methods="POST")# no es un GET porque el metodo get no deja pasar nada en el body
+@api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
     payload= request.get_json()
 
