@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import datetime
 import hashlib
 import hmac
-# import jwt
+import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
 from api.models import db, Users, Packages, Connections, Leandings, Reviews, Ratings
@@ -15,8 +15,8 @@ api = Blueprint('api', __name__)
 
 ####################################    KEYS    #################################
 # MAC=
-# JWT_SECRET=
-#################################    ENPOINTS    #################################
+JWT_SECRET= 'HGRrM3xhfSEzNY7qDypJK6YMyaTFD76d'
+#################################    ENDPOINTS    #################################
 ################################# REFACTORITATION #################################
 def get_one_or_404(model, id):
     row = model.query.filter_by(id=id, deleted_at=None).first()
@@ -36,20 +36,21 @@ def get_all_from_models(model):
 
     return jsonify(newList), 200
 ################################# AUTHORIZED_USERS #################################
-# def authorized_user():
-#     authorization = request.headers.get('Authorization')
+def authorized_user():
+    authorization = request.headers.get('Authorization')
 
-#     if not authorization:
-#         abort(403)
+    if not authorization:
+        abort(403)
 
-#     token = authorization[7:]
-#     secret = JWT_SECRET.encode('utf-8')
-#     algo = "HS256"
+    token = authorization[7:]
+    secret = JWT_SECRET.encode('utf-8')
+    algo = "HS256"
 
-#     payload = jwt.decode(token, secret, algorithms= [algo])
-#     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
+    payload = jwt.decode(token, secret, algorithms= [algo])
+    user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
-#     return user
+    return user
+    
 ###################################    USERS    #################################
 
 print('Hello World')
@@ -63,7 +64,7 @@ def handle_create_user():
 
     db.session.add(user)
     db.session.commit()
-    print(payload, user)
+    print('this is payload', payload, 'this is user', user)
 
     return jsonify(user.serialize()), 201
 

@@ -40,7 +40,7 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "username": self.username,
-            "avatar": self.avatar, 
+            # "avatar": self.avatar, 
             "village": self.village
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
