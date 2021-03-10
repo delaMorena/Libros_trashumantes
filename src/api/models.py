@@ -19,6 +19,7 @@ class Users(db.Model):
     village =  db.Column(db.String(120), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     conection_id = db.Column(db.Integer, ForeignKey('connections.id'))
+    avatar = db.Column(db.String(255))
 
     connections = db.relationship("Connections")
     reviews = db.relationship("Reviews")
@@ -40,7 +41,7 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "username": self.username,
-            # "avatar": self.avatar, 
+            "avatar": self.avatar, 
             "village": self.village
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False

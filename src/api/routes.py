@@ -278,7 +278,16 @@ def handle_get_one_review(book_id):
 # PUT ¿lo necesitamos?
 # DELETE ¿lo necesitamos?
 ################################# BOOKS #################################
+#Los agregaremos desde el admin, no necesita POST, PUT ni DELETE. Sólo los GET.
+#GET al books
+@api.route('/packages', methods=['GET'])
+def handle_get_list_of_packages(book_id):
+    list_packages = [
+        Packages.serialize()
+        for package in Packages.query.filter_by(deleted_at=None).all()
+    ]
 
+    return jsonify(list_packages), 200
 
 ################################# RATINGS #################################
 # POST
