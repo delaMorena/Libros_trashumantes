@@ -10,6 +10,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint, abort
 from api.models import db, Users, Packages, Connections, Leandings, Reviews, Ratings
 from api.utils import generate_sitemap, APIException
 
+
 api = Blueprint('api', __name__)
 
 ####################################    KEYS    #################################
@@ -51,6 +52,7 @@ def get_all_from_models(model):
 #     return user
 ###################################    USERS    #################################
 
+print('Hello World')
 
 @api.route("/users", methods=["POST"])
 def handle_create_user():
@@ -233,9 +235,49 @@ def handle_list_leanding_from_a_package(id):
 # PUT or DELETE???? DUDA
 
 ################################# REVIEWS #################################
-# POST
-# GET all/one
-# PUT
+#create a review
+@api.route("/reviews", methods=["POST"])
+def handle_create_review():
+    user = authorized_user()
+
+    payload = request.get_json()
+    payload["user_id"] = user.id
+    reviews = Reviews(**payload)
+
+    db.session.add(reviews)
+    db.session.commit()
+
+    return jsonify(reviews.serialize()), 201
+
+# GET all reviews from a book
+@api.route('/books/reviews/<int:book_id>', methods=['GET'])
+def handle_get_list_of_reviews(book_id):
+    reviews = []
+
+    for review in  Reviews.query.filter_by(book_id = book_id, deleted_at=None):
+        reviews.append(review.serialize())
+
+    return jsonify(reviews), 200
+
+# GET one review from a book, pienso que se utilizaría cuando un usuario quiera ver sus comentarios de un libro en específico
+@api.route('/books/review/<int:book_id>', methods=['GET'])
+def handle_get_one_review(book_id):
+    user = authorized_user()
+
+    review = Reviews.query.filter_by(book_id = book_id, user_id = user.id, deleted_at = None).first()
+    
+    if not review:
+        abort(404)
+
+    if review.deleted_at:
+        abort(401)
+
+    return jsonify(review.serialize()), 200
+
+# PUT ¿lo necesitamos?
+# DELETE ¿lo necesitamos?
+################################# BOOKS #################################
+
 
 ################################# RATINGS #################################
 # POST
