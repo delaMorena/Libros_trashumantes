@@ -7,17 +7,18 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews, Books, Ratings
+from api.models import db, Users, Packages, Connections, Leandings, Reviews, Books, Ratings, Villages
 from api.utils import generate_sitemap, APIException
 
 
 api = Blueprint('api', __name__)
 
-####################################    KEYS    #################################
+####################################    KEYS    
 # MAC=
 # JWT_SECRET=
-#################################    ENPOINTS    #################################
-################################# REFACTORITATION #################################
+#################################    ENPOINTS  
+
+################################# REFACTORITATION 
 def get_one_or_404(model, id):
     row = model.query.filter_by(id=id, deleted_at=None).first()
 
@@ -283,3 +284,6 @@ def handle_get_one_review(book_id):
 # POST
 # GET all/one
 # PUT
+
+################################# VILLAGES #################################
+# GET all/one
