@@ -279,7 +279,7 @@ def handle_get_one_review(book_id):
 # DELETE ¿lo necesitamos?
 ################################# BOOKS #################################
 #Los agregaremos desde el admin, no necesita POST, PUT ni DELETE. Sólo los GET.
-#GET al books
+#GET all packages
 @api.route('/packages', methods=['GET'])
 def handle_get_list_of_packages(book_id):
     list_packages = [
