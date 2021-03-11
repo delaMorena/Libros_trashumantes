@@ -7,17 +7,18 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews, Ratings
+from api.models import db, Users, Packages, Connections, Leandings, Reviews, Books, Ratings, Villages
 from api.utils import generate_sitemap, APIException
 
 
 api = Blueprint('api', __name__)
 
-####################################    KEYS    #################################
+####################################    KEYS    
 # MAC=
 # JWT_SECRET=
-#################################    ENPOINTS    #################################
-################################# REFACTORITATION #################################
+#################################    ENPOINTS  
+
+################################# REFACTORITATION 
 def get_one_or_404(model, id):
     row = model.query.filter_by(id=id, deleted_at=None).first()
 
@@ -67,7 +68,7 @@ def handle_create_user():
 
     return jsonify(user.serialize()), 201
 
-@api.route("/login", methods="POST")# no es un GET porque el metodo get no deja pasar nada en el body
+@api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
     payload= request.get_json()
 
@@ -172,12 +173,11 @@ def handle_create_leanding():
     user = authorized_user()
 
     payload['user_id'] = user.id
-    required = ['returning_date', 'user_id', 'package_id']
+    required = ['user_id', 'package_id']
    
    ####Duda: qué es required y como valido el tipo de dato para una fecha??
 
     types = {
-        'returning_date': int,
         'user_id': int,
         'post_id': int
     }
@@ -232,7 +232,7 @@ def handle_list_leanding_from_a_package(id):
 
     return jsonify(leandings), 200
 
-# PUT or DELETE???? DUDA
+# DELETE (se borra la reserva y si se pilla otra vez el paquete se crea un id nuevo de reserva)
 
 ################################# REVIEWS #################################
 #create a review
@@ -283,3 +283,6 @@ def handle_get_one_review(book_id):
 # POST
 # GET all/one
 # PUT
+
+################################# VILLAGES #################################
+# GET all/one

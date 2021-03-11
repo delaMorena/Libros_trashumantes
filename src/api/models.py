@@ -16,18 +16,19 @@ class Users(db.Model):
     password = db.Column(db.String(128), nullable=False)
     username = db.Column(db.String(120), unique=True)
     dni = db.Column(db.Integer, unique=True, nullable=False)
-    village =  db.Column(db.String(120), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    conection_id = db.Column(db.Integer, ForeignKey('connections.id'))
+    village =  db.Column(db.Integer, ForeignKey('villages.id'))
+    connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
 
     connections = db.relationship("Connections")
     reviews = db.relationship("Reviews")
+    ratings = db.relationship("Ratings")
     packages = db.relationship("Packages")
     leandings = db.relationship("Leandings")
+    villages = db.relationship("Villages")
 
 
     def __str__(self):
-        return '{} <{}>' .format(self.username, self.email, self.village)
+        return '{} <{}>' .format(self.username, self.email)
     
 
     def serialize(self):
@@ -40,11 +41,36 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "username": self.username,
-            "avatar": self.avatar, 
-            "village": self.village
+            # "avatar": self.avatar
+        }
+class Villages(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, server_default=func.now())
+    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
+    deleted_at = db.Column(db.DateTime) 
+    village_name = db.Column(db.String(125), unique=True, nullable = False)
+    # citizen_id = db.Column(db.Integer, ForeignKey('users.id'))
+    # connection_with_citizen = db.Column(db.Integer, ForeignKey('connections.id'))
+
+    # citizens = db.relationship("Users")
+    # connections_with_citizens = db.relationship("Connections")
+
+    def __str__(self):
+        return '{} <{}>' .format(self.village_name)
+    
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "deleted_at": self.deleted_at,
+            "village_name": self.village_name,
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
+    
+
 class Packages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
@@ -62,6 +88,7 @@ class Packages(db.Model):
     users = db.relationship("Users")
     books = db.relationship("Books")
     leandings = db.relationship("Leandings")
+    ratings = db.relationship("Ratings")
 
 
     def __str__(self):
@@ -92,9 +119,13 @@ class Connections(db.Model):
     last_name = db.Column(db.String(120))
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(120), unique=True, nullable=False)
-    village_supplier = (db.Column(db.String(120), unique=True, nullable=False))
+    village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
+    info_reservation = db.Column(db.Integer, ForeignKey('leandings.id'))
 
     users = db.relationship("Users")
+    villages = db.relationship("Villages")
+    info = db.relationship("Leandings")
+    
 
 
     def __str__(self):
@@ -127,6 +158,7 @@ class Leandings(db.Model):
 
     users = db.relationship("Users")
     packages = db.relationship("Packages")
+    connections = db.relationship("Connections")
 
 
     def __str__(self):
@@ -209,10 +241,10 @@ class Books(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime)
     title = db.Column(db.String(200), nullable=False)
-    author = db.Column(db.String(80), nullable=False))
+    author = db.Column(db.String(80), nullable=False)
     suitable_ages = db.Column(db.String(120), nullable=False)
     pages = db.Column(db.String(100))
-    book_description = db.Column(db.String(500), nullable=False))
+    book_description = db.Column(db.String(500), nullable=False)
 
     packages = db.relationship("Packages")
     reviews = db.relationship("Reviews")
