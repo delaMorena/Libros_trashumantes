@@ -173,12 +173,11 @@ def handle_create_leanding():
     user = authorized_user()
 
     payload['user_id'] = user.id
-    required = ['returning_date', 'user_id', 'package_id']
+    required = ['user_id', 'package_id']
    
    ####Duda: qué es required y como valido el tipo de dato para una fecha??
 
     types = {
-        'returning_date': int,
         'user_id': int,
         'post_id': int
     }
@@ -233,7 +232,7 @@ def handle_list_leanding_from_a_package(id):
 
     return jsonify(leandings), 200
 
-# PUT or DELETE???? DUDA
+# DELETE (se borra la reserva y si se pilla otra vez el paquete se crea un id nuevo de reserva)
 
 ################################# REVIEWS #################################
 #create a review

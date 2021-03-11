@@ -120,9 +120,11 @@ class Connections(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(120), unique=True, nullable=False)
     village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
+    info_reservation = db.Column(db.Integer, ForeignKey('leandings.id'))
 
     users = db.relationship("Users")
     villages = db.relationship("Villages")
+    info = db.relationship("Leandings")
     
 
 
@@ -156,6 +158,7 @@ class Leandings(db.Model):
 
     users = db.relationship("Users")
     packages = db.relationship("Packages")
+    connections = db.relationship("Connections")
 
 
     def __str__(self):
