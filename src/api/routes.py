@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import datetime
 import hashlib
 import hmac
-import jwt
+# import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
 from api.models import db, Users, Packages, Connections, Leandings, Reviews
@@ -56,6 +56,7 @@ def get_all_from_models(model):
         newList.append(item.serialize())
 
     return jsonify(newList), 200
+
 ################################# AUTHORIZED_USERS #################################
 def authorized_user():
     authorization = request.headers.get('Authorization')
@@ -147,7 +148,7 @@ def handle_get_all_users():
     for user in Users.query.all():
         users.append(user.serialize())
     return jsonify(users), 201
-
+    
 @api.route("/users/<int:id>", methods=["GET"])
 def handle_get_one_user(id):
     user = Users.query.get(id)

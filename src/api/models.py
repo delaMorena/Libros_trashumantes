@@ -19,7 +19,7 @@ class Users(db.Model):
     dni = db.Column(db.Integer, unique=True, nullable=False)
     village =  db.Column(db.Integer, ForeignKey('villages.id'))
     connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
-    avatar = db.Column(db.String(255))
+    # avatar = db.Column(db.String(255))
 
     connections = db.relationship("Connections")
     reviews = db.relationship("Reviews")
@@ -140,7 +140,7 @@ class Packages(db.Model):
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
-        def serialize_required(self):
+    def serialize_required(self):
         return{
             "books_id": int,
             "user_id": int,
