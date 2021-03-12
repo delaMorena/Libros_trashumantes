@@ -7,18 +7,38 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews, Books, Ratings, Villages
+from api.models import db, Users, Packages, Connections, Leandings, Reviews
 from api.utils import generate_sitemap, APIException
 
 
 api = Blueprint('api', __name__)
 
-####################################    KEYS    
-# MAC=
-# JWT_SECRET=
-#################################    ENPOINTS  
+####################################    KEYS    #################################
+MAC= 'D9GSf7pVqNXYhSKKE4LLh8ARBrMJGNuH'
+JWT_SECRET= 'HGRrM3xhfSEzNY7qDypJK6YMyaTFD76d'
 
-################################# REFACTORITATION 
+#################################    ENDPOINTS    #################################
+################################# REFACTORITATION #################################
+# Validación de datos en actualizar.
+def validation_and_payload(Models): 
+    model = Models.query.get(id)
+
+    if not user:
+        return f"{model} not found", 404
+        
+    payload = request.get_json()
+
+    required = models.notebook(models).keys()
+
+    for field in required:
+        if field in payload :
+            model.field = payload[field]
+
+    db.session.add(model)
+    db.session.commit()
+
+    return jsonify(model.serialize()), 201
+
 def get_one_or_404(model, id):
     row = model.query.filter_by(id=id, deleted_at=None).first()
 
@@ -36,37 +56,62 @@ def get_all_from_models(model):
         newList.append(item.serialize())
 
     return jsonify(newList), 200
+
 ################################# AUTHORIZED_USERS #################################
-# def authorized_user():
-#     authorization = request.headers.get('Authorization')
+def authorized_user():
+    authorization = request.headers.get('Authorization')
 
-#     if not authorization:
-#         abort(403)
+    if not authorization:
+        abort(403)
 
-#     token = authorization[7:]
-#     secret = JWT_SECRET.encode('utf-8')
-#     algo = "HS256"
+    token = authorization[7:]
+    secret = JWT_SECRET.encode('utf-8')
+    algo = "HS256"
 
-#     payload = jwt.decode(token, secret, algorithms= [algo])
-#     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
+    payload = jwt.decode(token, secret, algorithms= [algo])
+    user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
-#     return user
+    return user
+    
 ###################################    USERS    #################################
-
-print('Hello World')
-
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-
     payload= request.get_json()
 
-    user = Users(**payload)
+    required = models.serialize_required(models).keys()
+    testing = models.serialize_all_types(models)
+    
+    for field in required:
+        if field not in payload or payload[field] is None:
+            abort(422,f"Error: missing {field}")    
+    
+    for key, value in testing.items():
+        print(payload[key],key)
+        if payload[key] in payload and payload[key] is not None and not isinstance(payload[key],value): 
+            abort(422,f"Error in {key}'s data type")
 
+
+    key = MAC.encode('utf-8')
+    msg = payload['password'].encode('utf-8')
+    algo = hashlib.sha512
+
+    print("password: ", msg)
+    payload['password'] = hmac.new(key, msg, algo).hexdigest()
+    print("hash: ", payload['password'])
+
+    user = Users(**payload)
+    
     db.session.add(user)
     db.session.commit()
-    print(payload, user)
 
-    return jsonify(user.serialize()), 201
+    secret = JWT_SECRET.encode('utf-8')
+    payload_login = {"sub": payload['email']}
+    algo = "HS256"
+    token = jwt.encode(payload_login, secret, algorithm=algo)
+
+    # print(payload)
+    # print(user.serialize())
+    return jsonify({"token": token}), 201
 
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
@@ -80,9 +125,21 @@ def login():
     if not user:
         return "Forbidden", 403
 
-    #falta la validación del usuario y obtener el token
+    key = MAC.encode('utf-8')
+    msg = payload['password'].encode('utf-8')
+    algo = hashlib.sha512
 
-    return jsonify(user)
+    hashed_password = hmac.new(key, msg, algo).hexdigest()
+
+    if hashed_password != user.password:
+        return "Forbidden", 403
+    
+    secret = JWT_SECRET.encode('utf-8')
+    payload = {"sub": user.email}
+    algo = "HS256"
+    token = jwt.encode(payload, secret, algorithm=algo)
+
+    return jsonify({"token": token}), 201
 
 @api.route("/users", methods=["GET"])
 def handle_get_all_users():
@@ -91,7 +148,7 @@ def handle_get_all_users():
     for user in Users.query.all():
         users.append(user.serialize())
     return jsonify(users), 201
-
+    
 @api.route("/users/<int:id>", methods=["GET"])
 def handle_get_one_user(id):
     user = Users.query.get(id)
@@ -173,11 +230,12 @@ def handle_create_leanding():
     user = authorized_user()
 
     payload['user_id'] = user.id
-    required = ['user_id', 'package_id']
+    required = ['returning_date', 'user_id', 'package_id']
    
    ####Duda: qué es required y como valido el tipo de dato para una fecha??
 
     types = {
+        'returning_date': int,
         'user_id': int,
         'post_id': int
     }
@@ -232,7 +290,7 @@ def handle_list_leanding_from_a_package(id):
 
     return jsonify(leandings), 200
 
-# DELETE (se borra la reserva y si se pilla otra vez el paquete se crea un id nuevo de reserva)
+# PUT or DELETE???? DUDA
 
 ################################# REVIEWS #################################
 #create a review
@@ -249,22 +307,21 @@ def handle_create_review():
 
     return jsonify(reviews.serialize()), 201
 
-# GET all reviews from a book
-@api.route('/books/reviews/<int:book_id>', methods=['GET'])
-def handle_get_list_of_reviews(book_id):
+# GET all reviews from a package
+@api.route('/packagess/reviews/<int:package_id>', methods=['GET'])
+def handle_get_list_of_reviews(package_id):
     reviews = []
 
-    for review in  Reviews.query.filter_by(book_id = book_id, deleted_at=None):
+    for review in  Reviews.query.filter_by(package_id = package_id, deleted_at=None):
         reviews.append(review.serialize())
 
     return jsonify(reviews), 200
 
-# GET one review from a book, pienso que se utilizaría cuando un usuario quiera ver sus comentarios de un libro en específico
-@api.route('/books/review/<int:book_id>', methods=['GET'])
-def handle_get_one_review(book_id):
-    user = authorized_user()
+# GET one review from a book, pienso que se utilizaría cuando un usuario quiera ver su
+@api.route('/books/review/<int:package_id>', methods=['GET'])
+def handle_get_one_review(package_id):
 
-    review = Reviews.query.filter_by(book_id = book_id, user_id = user.id, deleted_at = None).first()
+    review = Reviews.query.filter_by(package_id = package_id, deleted_at = None).first()
     
     if not review:
         abort(404)
@@ -274,15 +331,9 @@ def handle_get_one_review(book_id):
 
     return jsonify(review.serialize()), 200
 
-# PUT ¿lo necesitamos?
-# DELETE ¿lo necesitamos?
 ################################# BOOKS #################################
-
+#Los agregaremos desde el admin
 
 ################################# RATINGS #################################
 # POST
-# GET all/one
-# PUT
-
-################################# VILLAGES #################################
 # GET all/one
