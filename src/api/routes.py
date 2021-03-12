@@ -7,7 +7,7 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews
+from api.models import db, Users, Packages, Connections, Leandings, Reviews 
 from api.utils import generate_sitemap, APIException
 
 
@@ -76,42 +76,41 @@ def authorized_user():
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-    payload= request.get_json()
+    required = ["first_name", "last_name", "username", "email", "password"]
+    types = {
+        "first_name": str,
+        "last_name": str,
+        "username": str,
+        "email": str,
+        "password": str
+    }
+    payload = request.get_json()
 
-    required = models.serialize_required(models).keys()
-    testing = models.serialize_all_types(models)
-    
+    for key, value in payload.items():
+        if key in types and not isinstance(value, types[key]):
+            abort(400, f"{key} is not {types[key]}")
+
     for field in required:
         if field not in payload or payload[field] is None:
-            abort(422,f"Error: missing {field}")    
-    
-    for key, value in testing.items():
-        print(payload[key],key)
-        if payload[key] in payload and payload[key] is not None and not isinstance(payload[key],value): 
-            abort(422,f"Error in {key}'s data type")
-
+            abort(400, "este es un mensaje en el error 400")
 
     key = MAC.encode('utf-8')
     msg = payload['password'].encode('utf-8')
     algo = hashlib.sha512
 
-    print("password: ", msg)
     payload['password'] = hmac.new(key, msg, algo).hexdigest()
-    print("hash: ", payload['password'])
 
     user = Users(**payload)
-    
     db.session.add(user)
     db.session.commit()
 
+    email = {'sub': user.email}
     secret = JWT_SECRET.encode('utf-8')
-    payload_login = {"sub": payload['email']}
-    algo = "HS256"
-    token = jwt.encode(payload_login, secret, algorithm=algo)
+    algo="HS256"
 
-    # print(payload)
-    # print(user.serialize())
-    return jsonify({"token": token}), 201
+    token = jwt.encode(email, secret, algorithm=algo)
+
+    return jsonify({"token":token}), 201
 
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():

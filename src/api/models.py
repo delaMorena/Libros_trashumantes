@@ -46,24 +46,24 @@ class Users(db.Model):
             "avatar": self.avatar
         }
     
-    def serialize_required(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "username": str,
-            "avatar": str,
-            "password": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "username": str,
+    #         "avatar": str,
+    #         "password": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "username": str,
-            "avatar": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "username": str,
+    #         "avatar": str
+    #     }
 
 class Villages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -92,15 +92,15 @@ class Villages(db.Model):
             # al probar en insomnia me daba error porque es campo nullable = False
         }
 
-    def serialize_required(self):
-        return{
-            'village_name': str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         'village_name': str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            'village_name': str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         'village_name': str
+    #     }
     
 
 class Packages(db.Model):
@@ -140,29 +140,29 @@ class Packages(db.Model):
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
-    def serialize_required(self):
-        return{
-            "books_id": int,
-            "user_id": int,
-            "package_tittle": str,
-            "suitable_ages": str,
-            "subject": str,
-            "reserved_status": bool,
-            "date_reservation": str,
-            # "package_description": ?
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "books_id": int,
+    #         "user_id": int,
+    #         "package_tittle": str,
+    #         "suitable_ages": str,
+    #         "subject": str,
+    #         "reserved_status": bool,
+    #         "date_reservation": str,
+    #         # "package_description": ?
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "books_id": int,
-            "user_id": int,
-            "package_tittle": str,
-            "suitable_ages": str,
-            "subject": str,
-            "reserved_status": bool,
-            "date_reservation": str,
-            # "package_description": ?
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "books_id": int,
+    #         "user_id": int,
+    #         "package_tittle": str,
+    #         "suitable_ages": str,
+    #         "subject": str,
+    #         "reserved_status": bool,
+    #         "date_reservation": str,
+    #         # "package_description": ?
+    #     }
 
 
 class Connections(db.Model):
@@ -202,25 +202,25 @@ class Connections(db.Model):
             # al probar en insomnia me daba error porque es campo nullable = False
         }
 
-    def serialize_required(self):
-            return{
-                "first_name": str,
-                "last_name": str,
-                "email": str,
-                "phone": str,
-                "village_supplier": str,
-                "info_reservation": int
-            }
+    # def serialize_required(self):
+    #         return{
+    #             "first_name": str,
+    #             "last_name": str,
+    #             "email": str,
+    #             "phone": str,
+    #             "village_supplier": str,
+    #             "info_reservation": int
+    #         }
 
-    def serialize_all_types(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "phone": str,
-            "village_supplier": str,
-            "info_reservation": int
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "phone": str,
+    #         "village_supplier": str,
+    #         "info_reservation": int
+    #     }
 
 class Leandings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -229,6 +229,7 @@ class Leandings(db.Model):
     deleted_at = db.Column(db.DateTime) 
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_id = db.Column(db.Integer, ForeignKey('packages.id'))
+    # connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
     returning_date = db.Column(db.DateTime)
 
     users = db.relationship("Users")
@@ -255,19 +256,19 @@ class Leandings(db.Model):
             # al probar en insomnia me daba error porque es campo nullable = False
         }
     
-    def serialize_required(self):
-        return{
-            "user_id": int,
-            "package_id": int,
-            "returning_date": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "user_id": int,
+    #         "package_id": int,
+    #         "returning_date": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "user_id": int,
-            "package_id": int,
-            "returning_date": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "user_id": int,
+    #         "package_id": int,
+    #         "returning_date": str
+    #     }
 
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -297,19 +298,19 @@ class Reviews(db.Model):
             "text_review": self.text_review
         }
     
-    def serialize_required(self):
-        return{
-            "writer_revies_id": int,
-            "book_reviewed_id": int,
-            # "text_review": text?
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "writer_revies_id": int,
+    #         "book_reviewed_id": int,
+    #         # "text_review": text?
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "writer_revies_id": int,
-            "book_reviewed_id": int,
-            # "text_review": text?
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "writer_revies_id": int,
+    #         "book_reviewed_id": int,
+    #         # "text_review": text?
+    #     }
 
 
 class Books(db.Model):
@@ -349,21 +350,21 @@ class Books(db.Model):
             "review": reviews
         }
 
-    def serialize_required(self):
-        return{
-            "title": str,
-            "author": str,
-            "suitable_ages": str,
-            "pages": str,
-            "book_description": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "title": str,
+    #         "author": str,
+    #         "suitable_ages": str,
+    #         "pages": str,
+    #         "book_description": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "title": str,
-            "author": str,
-            "suitable_ages": str,
-            "pages": str,
-            "book_description": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "title": str,
+    #         "author": str,
+    #         "suitable_ages": str,
+    #         "pages": str,
+    #         "book_description": str
+    #     }
 
