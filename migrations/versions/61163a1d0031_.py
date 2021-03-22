@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 86ecd9dfe80d
+Revision ID: 61163a1d0031
 Revises: 
-Create Date: 2021-03-22 16:25:41.874860
+Create Date: 2021-03-22 21:40:03.575366
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '86ecd9dfe80d'
+revision = '61163a1d0031'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,17 +30,28 @@ def upgrade():
     sa.Column('book_description', sa.String(length=500), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('villages',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('deleted_at', sa.DateTime(), nullable=True),
+    sa.Column('village_name', sa.String(length=125), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('village_name')
+    )
     op.create_table('packages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
+    sa.Column('books_id', sa.Integer(), nullable=True),
     sa.Column('package_tittle', sa.String(length=120), nullable=True),
     sa.Column('suitable_ages', sa.String(length=120), nullable=True),
     sa.Column('subject', sa.String(length=120), nullable=True),
+    sa.Column('package_description', sa.Text(), nullable=False),
     sa.Column('reserved_status', sa.Boolean(), nullable=False),
     sa.Column('date_reservation', sa.String(length=120), nullable=True),
-    sa.Column('package_description', sa.Text(), nullable=False),
+    sa.ForeignKeyConstraint(['books_id'], ['books.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('package_tittle')
     )
@@ -49,16 +60,27 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
+    sa.Column('package_id', sa.Integer(), nullable=True),
     sa.Column('returning_date', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['package_id'], ['packages.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('reviews',
+    op.create_table('volunteers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('text_review', sa.Text(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.Column('first_name', sa.String(length=80), nullable=True),
+    sa.Column('last_name', sa.String(length=120), nullable=True),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('phone', sa.String(length=120), nullable=False),
+    sa.Column('village_supplier', sa.Integer(), nullable=True),
+    sa.Column('info_reservation', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['info_reservation'], ['reservations.id'], ),
+    sa.ForeignKeyConstraint(['village_supplier'], ['villages.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('phone')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -71,43 +93,38 @@ def upgrade():
     sa.Column('password', sa.String(length=128), nullable=False),
     sa.Column('username', sa.String(length=120), nullable=True),
     sa.Column('dni', sa.Integer(), nullable=False),
+    sa.Column('village', sa.Integer(), nullable=True),
+    sa.Column('volunteer_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['village'], ['villages.id'], ),
+    sa.ForeignKeyConstraint(['volunteer_id'], ['volunteers.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('dni'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('villages',
+    op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('village_name', sa.String(length=125), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('village_name')
-    )
-    op.create_table('volunteers',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('first_name', sa.String(length=80), nullable=True),
-    sa.Column('last_name', sa.String(length=120), nullable=True),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('phone', sa.String(length=120), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('phone')
+    sa.Column('writer_reviews_id', sa.Integer(), nullable=True),
+    sa.Column('package_reviewed_id', sa.Integer(), nullable=True),
+    sa.Column('text_review', sa.Text(), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['package_reviewed_id'], ['packages.id'], ),
+    sa.ForeignKeyConstraint(['writer_reviews_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('volunteers')
-    op.drop_table('villages')
-    op.drop_table('users')
     op.drop_table('reviews')
+    op.drop_table('users')
+    op.drop_table('volunteers')
     op.drop_table('reservations')
     op.drop_table('packages')
+    op.drop_table('villages')
     op.drop_table('books')
     # ### end Alembic commands ###
