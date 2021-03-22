@@ -17,16 +17,16 @@ class Users(db.Model):
     password = db.Column(db.String(128), nullable=False)
     username = db.Column(db.String(120), unique=True)
     dni = db.Column(db.Integer, unique=True, nullable=False)
-    village =  db.Column(db.Integer, ForeignKey('villages.id'))
-    connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
+    # village =  db.Column(db.Integer, ForeignKey('villages.id'))
+    # connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
     # avatar = db.Column(db.String(255))
 
-    connections = db.relationship("Connections")
-    reviews = db.relationship("Reviews")
+    # connections = db.relationship("Connections")
+    # reviews = db.relationship("Reviews")
    
-    packages = db.relationship("Packages")
-    leandings = db.relationship("Leandings")
-    villages = db.relationship("Villages")
+    # packages = db.relationship("Packages")
+    # leandings = db.relationship("Leandings")
+    # villages = db.relationship("Villages")
 
 
     def __str__(self):
@@ -46,24 +46,24 @@ class Users(db.Model):
             "avatar": self.avatar
         }
     
-    def serialize_required(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "username": str,
-            "avatar": str,
-            "password": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "username": str,
+    #         "avatar": str,
+    #         "password": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "username": str,
-            "avatar": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "username": str,
+    #         "avatar": str
+    #     }
 
 class Villages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -87,20 +87,20 @@ class Villages(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "village_name": self.village_name,
+            "village_name": self.village_name
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
 
-    def serialize_required(self):
-        return{
-            'village_name': str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         'village_name': str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            'village_name': str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         'village_name': str
+    #     }
     
 
 class Packages(db.Model):
@@ -108,8 +108,8 @@ class Packages(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    books_id = db.Column(db.Integer, ForeignKey('books.id'))
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    # books_id = db.Column(db.Integer, ForeignKey('books.id'))
+    # user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_tittle = db.Column(db.String(120), unique=True)
     suitable_ages =  db.Column(db.String(120))
     subject = db.Column(db.String(120))
@@ -117,9 +117,9 @@ class Packages(db.Model):
     date_reservation = db.Column(db.String(120))
     package_description = db.Column(db.Text, nullable=False)
 
-    users = db.relationship("Users")
-    books = db.relationship("Books")
-    leandings = db.relationship("Leandings")
+    # users = db.relationship("Users")
+    # books = db.relationship("Books")
+    # leandings = db.relationship("Leandings")
 
 
 
@@ -133,36 +133,36 @@ class Packages(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "books": self.books_id,
-            "last_owner": self.last_owner_id,
+            # "books": self.books_id,
+            # "last_owner": self.last_owner_id,
             "suitable_age": self.suitable_age,
             "package_tittle": self.package_tittle
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
-    def serialize_required(self):
-        return{
-            "books_id": int,
-            "user_id": int,
-            "package_tittle": str,
-            "suitable_ages": str,
-            "subject": str,
-            "reserved_status": bool,
-            "date_reservation": str,
-            # "package_description": ?
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "books_id": int,
+    #         "user_id": int,
+    #         "package_tittle": str,
+    #         "suitable_ages": str,
+    #         "subject": str,
+    #         "reserved_status": bool,
+    #         "date_reservation": str,
+    #         # "package_description": ?
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "books_id": int,
-            "user_id": int,
-            "package_tittle": str,
-            "suitable_ages": str,
-            "subject": str,
-            "reserved_status": bool,
-            "date_reservation": str,
-            # "package_description": ?
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "books_id": int,
+    #         "user_id": int,
+    #         "package_tittle": str,
+    #         "suitable_ages": str,
+    #         "subject": str,
+    #         "reserved_status": bool,
+    #         "date_reservation": str,
+    #         # "package_description": ?
+    #     }
 
 
 class Connections(db.Model):
@@ -174,12 +174,12 @@ class Connections(db.Model):
     last_name = db.Column(db.String(120))
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(120), unique=True, nullable=False)
-    village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
-    info_reservation = db.Column(db.Integer, ForeignKey('leandings.id'))
+    # village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
+    # info_reservation = db.Column(db.Integer, ForeignKey('leandings.id'))
 
-    users = db.relationship("Users")
-    villages = db.relationship("Villages")
-    info = db.relationship("Leandings")
+    # users = db.relationship("Users")
+    # villages = db.relationship("Villages")
+    # info = db.relationship("Leandings")
     
 
 
@@ -197,43 +197,43 @@ class Connections(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "phone": self.phone,
-            "village_supplier": self.village_supplier
+            # "village_supplier": self.village_supplier
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
 
-    def serialize_required(self):
-            return{
-                "first_name": str,
-                "last_name": str,
-                "email": str,
-                "phone": str,
-                "village_supplier": str,
-                "info_reservation": int
-            }
+    # def serialize_required(self):
+    #         return{
+    #             "first_name": str,
+    #             "last_name": str,
+    #             "email": str,
+    #             "phone": str,
+    #             "village_supplier": str,
+    #             "info_reservation": int
+    #         }
 
-    def serialize_all_types(self):
-        return{
-            "first_name": str,
-            "last_name": str,
-            "email": str,
-            "phone": str,
-            "village_supplier": str,
-            "info_reservation": int
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "first_name": str,
+    #         "last_name": str,
+    #         "email": str,
+    #         "phone": str,
+    #         "village_supplier": str,
+    #         "info_reservation": int
+    #     }
 
 class Leandings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    package_id = db.Column(db.Integer, ForeignKey('packages.id'))
+    # user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    # package_id = db.Column(db.Integer, ForeignKey('packages.id'))
     returning_date = db.Column(db.DateTime)
 
-    users = db.relationship("Users")
-    packages = db.relationship("Packages")
-    connections = db.relationship("Connections")
+    # users = db.relationship("Users")
+    # packages = db.relationship("Packages")
+    # connections = db.relationship("Connections")
 
 
     def __str__(self):
@@ -246,40 +246,40 @@ class Leandings(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "user": self.user_id,
-            "books": self.books_id,
-            "email": self.email,
-            "phone": self.phone,
-            "village_supplier": self.village_supplier
+            # "user": self.user_id,
+            # "books": self.books_id,
+            # "email": self.email,
+            # "phone": self.phone,
+            # "village_supplier": self.village_supplier esto es un error
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
     
-    def serialize_required(self):
-        return{
-            "user_id": int,
-            "package_id": int,
-            "returning_date": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "user_id": int,
+    #         "package_id": int,
+    #         "returning_date": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "user_id": int,
-            "package_id": int,
-            "returning_date": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "user_id": int,
+    #         "package_id": int,
+    #         "returning_date": str
+    #     }
 
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    writer_revies_id = db.Column(db.Integer, ForeignKey('users.id'))
-    book_reviewed_id = db.Column(db.Integer, ForeignKey('books.id'))
+    # writer_revies_id = db.Column(db.Integer, ForeignKey('users.id'))
+    # book_reviewed_id = db.Column(db.Integer, ForeignKey('books.id'))
     text_review = db.Column(db.Text, nullable=False)
 
-    users = db.relationship("Users")
-    books = db.relationship("Books")
+    # users = db.relationship("Users")
+    # books = db.relationship("Books")
 
 
     def __str__(self):
@@ -292,24 +292,24 @@ class Reviews(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "writer_reviews": self.user_id,
-            "book_reviewed": self.books_id,
+            # "writer_reviews": self.user_id,
+            # "book_reviewed": self.books_id,
             "text_review": self.text_review
         }
     
-    def serialize_required(self):
-        return{
-            "writer_revies_id": int,
-            "book_reviewed_id": int,
-            # "text_review": text?
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "writer_revies_id": int,
+    #         "book_reviewed_id": int,
+    #         # "text_review": text?
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "writer_revies_id": int,
-            "book_reviewed_id": int,
-            # "text_review": text?
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "writer_revies_id": int,
+    #         "book_reviewed_id": int,
+    #         # "text_review": text?
+    #     }
 
 
 class Books(db.Model):
@@ -323,8 +323,8 @@ class Books(db.Model):
     pages = db.Column(db.String(100))
     book_description = db.Column(db.String(500), nullable=False)
 
-    packages = db.relationship("Packages")
-    reviews = db.relationship("Reviews")
+    # packages = db.relationship("Packages")
+    # reviews = db.relationship("Reviews")
 
     def __str__(self):
         return '{} <{}>' .format(self.created_at, self.title, self.author)
@@ -346,24 +346,24 @@ class Books(db.Model):
             "suitable_ages": self.suitable_ages,
             "pages": self.pages,
             "book_description": self.book_description,
-            "review": reviews
+            # "review": reviews
         }
 
-    def serialize_required(self):
-        return{
-            "title": str,
-            "author": str,
-            "suitable_ages": str,
-            "pages": str,
-            "book_description": str
-        }
+    # def serialize_required(self):
+    #     return{
+    #         "title": str,
+    #         "author": str,
+    #         "suitable_ages": str,
+    #         "pages": str,
+    #         "book_description": str
+    #     }
 
-    def serialize_all_types(self):
-        return{
-            "title": str,
-            "author": str,
-            "suitable_ages": str,
-            "pages": str,
-            "book_description": str
-        }
+    # def serialize_all_types(self):
+    #     return{
+    #         "title": str,
+    #         "author": str,
+    #         "suitable_ages": str,
+    #         "pages": str,
+    #         "book_description": str
+    #     }
 
