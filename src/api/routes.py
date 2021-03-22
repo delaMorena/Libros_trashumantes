@@ -7,7 +7,7 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews 
+from api.models import db, Users, Packages, Volunteers, Reservations, Reviews 
 from api.utils import generate_sitemap, APIException
 
 
@@ -207,29 +207,29 @@ def handle_get_one_package(id):
     return jsonify(package.serialize()), 201
 
 
-################################# CONNECTIONS #################################
-@api.route("/connections", methods=["GET"])
-def handle_get_all_connections():
-    connections = []
+################################# VOLUNTEERS #################################
+@api.route("/volunteers", methods=["GET"])
+def handle_get_all_volunteers():
+    volunteers = []
 
-    for connection in Connections.query.all():
-        connections.append(connection.serialize())
-    return jsonify(connections), 201
+    for volunteer in Volunteers.query.all():
+        volunteers.append(volunteer.serialize())
+    return jsonify(volunteers), 201
 
 
-@api.route("/connections/<int:id>", methods=["GET"])
-def handle_get_one_connections(id):
+@api.route("/volunteers/<int:id>", methods=["GET"])
+def handle_get_one_volunteer(id):
     
-    connection = Connections.query.get(id)
+    volunteer = Volunteers.query.get(id)
 
-    if not connection: 
-        return "Connection not found", 404
+    if not volunteer: 
+        return "Volunteer not found", 404
     
-    return jsonify(connection.serialize()), 201
+    return jsonify(volunteer.serialize()), 201
 
-################################# LEANDINGS #################################
-@api.route("/leandings", methods= ["POST"])
-def handle_create_leanding():
+################################# RESERVATIONS #################################
+@api.route("/reservations", methods= ["POST"])
+def handle_create_reservation():
 
     payload = request.get_json()
 
@@ -254,60 +254,60 @@ def handle_create_leanding():
         if field not in payload or payload[field] is None:
             abort(400)
 
-    leanding = Leandings(**payload)
+    reservation = Reservations(**payload)
 
-    db.session.add(leanding)
+    db.session.add(reservation)
     db.session.commit()
 
-    return jsonify(leanding.serialize()), 201
+    return jsonify(reservation.serialize()), 201
 # GET all/one
 #obtener todas las reservas
-@api.route("/leandings", methods=["GET"])
+@api.route("/reservations", methods=["GET"])
 def handle_get_all_reservations():
-    leandings = []
+    reservations = []
 
-    for leanding in Leandings.query.filter_by(deleted_at=None).all():
-        leandings.append(leanding.serialize())
+    for reservation in Reservations.query.filter_by(deleted_at=None).all():
+        reservations.append(reservation.serialize())
 
-    return jsonify(leandings), 200
+    return jsonify(reservations), 200
 
 # obtener las reservas de un usuario específico
-@api.route("/users/leandings", methods=["GET"])
-def handle_get_leandings():
+@api.route("/users/reservations", methods=["GET"])
+def handle_get_reservations():
 
     user = authorized_user()
 
     if not user:
         return "User not authorized", 403
 
-    leandings = []
+    reservations = []
 
-    for leanding in user.leandings:
-        leandings.append(leanding.serialize())
+    for reservation in user.reservations:
+        reservations.append(reservation.serialize())
 
-    leandings.sort(key=lambda x: x.get("updated_at"),reverse=True)
+    reservations.sort(key=lambda x: x.get("updated_at"),reverse=True)
 
-    if not leanding:
-        return "Leanding not found", 404
+    if not reservation:
+        return "Reservation not found", 404
         
-    return jsonify(leanding.serialize()), 200
+    return jsonify(reservation.serialize()), 200
 
 #obtener las reservas de un paquete específico
-@api.route("/packages/leandings/<int:id>", methods=["GET"])
-def handle_list_leanding_from_a_package(id):
+@api.route("/packages/reservations/<int:id>", methods=["GET"])
+def handle_list_reservations_from_a_package(id):
 
     package = Packages.query.filter_by(id=id, deleted_at=None).first()
-    leandings = []
+    reservations = []
 
     if not package:
         return "Package not found", 404
 
-    for leanding in package.leanding:
-        leandings.append(leanding.serialize())
+    for reservation in package.reservations:
+        reservations.append(reservation.serialize())
         
     # posts.sort(key=lambda x: x.get("updated_at"),reverse=True)
 
-    return jsonify(leandings), 200
+    return jsonify(reservations), 200
 
 # PUT or DELETE???? DUDA
 

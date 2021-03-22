@@ -18,14 +18,14 @@ class Users(db.Model):
     username = db.Column(db.String(120), unique=True)
     dni = db.Column(db.Integer, unique=True, nullable=False)
     # village =  db.Column(db.Integer, ForeignKey('villages.id'))
-    # connection_id = db.Column(db.Integer, ForeignKey('connections.id'))
+    # volunteer_id = db.Column(db.Integer, ForeignKey('volunteers.id'))
     # avatar = db.Column(db.String(255))
 
-    # connections = db.relationship("Connections")
+    # volunteers = db.relationship("Volunteers")
     # reviews = db.relationship("Reviews")
    
     # packages = db.relationship("Packages")
-    # leandings = db.relationship("Leandings")
+    # reservations = db.relationship("Reservations")
     # villages = db.relationship("Villages")
 
 
@@ -72,10 +72,10 @@ class Villages(db.Model):
     deleted_at = db.Column(db.DateTime) 
     village_name = db.Column(db.String(125), unique=True, nullable = False)
     # citizen_id = db.Column(db.Integer, ForeignKey('users.id'))
-    # connection_with_citizen = db.Column(db.Integer, ForeignKey('connections.id'))
+    # designated_volunteer = db.Column(db.Integer, ForeignKey('volunteers.id'))
 
     # citizens = db.relationship("Users")
-    # connections_with_citizens = db.relationship("Connections")
+    # designated_volunteer = db.relationship("Volunteers")
 
     def __str__(self):
         return '{} <{}>' .format(self.village_name)
@@ -119,7 +119,7 @@ class Packages(db.Model):
 
     # users = db.relationship("Users")
     # books = db.relationship("Books")
-    # leandings = db.relationship("Leandings")
+    # reservations = db.relationship("Reservations")
 
 
 
@@ -165,7 +165,7 @@ class Packages(db.Model):
     #     }
 
 
-class Connections(db.Model):
+class Volunteers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
@@ -175,11 +175,11 @@ class Connections(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(120), unique=True, nullable=False)
     # village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
-    # info_reservation = db.Column(db.Integer, ForeignKey('leandings.id'))
+    # info_reservation = db.Column(db.Integer, ForeignKey('reservations.id'))
 
     # users = db.relationship("Users")
     # villages = db.relationship("Villages")
-    # info = db.relationship("Leandings")
+    # info = db.relationship("Reservations")
     
 
 
@@ -222,7 +222,7 @@ class Connections(db.Model):
     #         "info_reservation": int
     #     }
 
-class Leandings(db.Model):
+class Reservations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
@@ -233,7 +233,7 @@ class Leandings(db.Model):
 
     # users = db.relationship("Users")
     # packages = db.relationship("Packages")
-    # connections = db.relationship("Connections")
+    # volunteers = db.relationship("Volunteers")
 
 
     def __str__(self):
