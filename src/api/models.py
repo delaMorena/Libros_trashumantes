@@ -226,11 +226,11 @@ class Reservations(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    # user_id = db.Column(db.Integer, ForeignKey('users.id')) OJO !!!!!!!!!!
+    # user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
     returning_date = db.Column(db.DateTime)
 
-    # users = db.relationship("Users") OJO !!!!!!!!!!
+    # users = db.relationship("Users") 
     packages = db.relationship("Packages")
     volunteers = db.relationship("Volunteers")
 
@@ -246,7 +246,7 @@ class Reservations(db.Model):
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
             "returning_date": self.returning_date,
-            # "user": self.user_id, OJO !!!!!!!!!!
+            # "user": self.user_id, 
             "package": self.package_id,
         }
     
