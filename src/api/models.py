@@ -43,7 +43,7 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "username": self.username,
-            "avatar": self.avatar
+            # "avatar": self.avatar
         }
     
     # def serialize_required(self):
@@ -135,7 +135,7 @@ class Packages(db.Model):
             "deleted_at": self.deleted_at,
             # "books": self.books_id,
             # "last_owner": self.last_owner_id,
-            "suitable_age": self.suitable_age,
+            "suitable_ages": self.suitable_ages,
             "package_tittle": self.package_tittle
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False

@@ -76,13 +76,14 @@ def authorized_user():
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-    required = ["first_name", "last_name", "username", "email", "password"]
+    required = ["first_name", "last_name", "username", "email", "password", "dni"]
     types = {
         "first_name": str,
         "last_name": str,
         "username": str,
         "email": str,
-        "password": str
+        "password": str,
+        "dni": int
     }
     payload = request.get_json()
 
@@ -191,13 +192,19 @@ def handle_delete_user(id):
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])
 def handle_get_all_packages():
-    
-    return jsonify(Packages), 201
+    packages = []
+
+    for package in Packages.query.all():
+        packages.append(package.serialize())    
+    return jsonify(packages), 201
 
 @api.route("/packages/<int:id>", methods=["GET"])
 def handle_get_one_package(id):
-    
-    return jsonify(package), 201
+    package = Packages.query.get(id)
+
+    if not package: 
+        return "Package not found", 404
+    return jsonify(package.serialize()), 201
 
 
 ################################# CONNECTIONS #################################
@@ -210,7 +217,7 @@ def handle_get_all_connections():
     return jsonify(connections), 201
 
 
-@api.route("/packages/<int:id>", methods=["GET"])
+@api.route("/connections/<int:id>", methods=["GET"])
 def handle_get_one_connections(id):
     
     connection = Connections.query.get(id)
@@ -255,17 +262,30 @@ def handle_create_leanding():
     return jsonify(leanding.serialize()), 201
 # GET all/one
 #obtener todas las reservas
+@api.route("/leandings", methods=["GET"])
+def handle_get_all_reservations():
+    leandings = []
+
+    for leanding in Leandings.query.filter_by(deleted_at=None).all():
+        leandings.append(leanding.serialize())
+
+    return jsonify(leandings), 200
 
 # obtener las reservas de un usuario específico
-@api.route("/leandings/<int:id>", methods=["GET"])
-def handle_get_leandings(id):
+@api.route("/users/leandings", methods=["GET"])
+def handle_get_leandings():
 
     user = authorized_user()
 
     if not user:
         return "User not authorized", 403
 
-    leanding = Leandings.query.filter_by(id=id, deleted_at=None).first()
+    leandings = []
+
+    for leanding in user.leandings:
+        leandings.append(leanding.serialize())
+
+    leandings.sort(key=lambda x: x.get("updated_at"),reverse=True)
 
     if not leanding:
         return "Leanding not found", 404
@@ -273,7 +293,7 @@ def handle_get_leandings(id):
     return jsonify(leanding.serialize()), 200
 
 #obtener las reservas de un paquete específico
-@api.route("/package/<int:id>", methods=["GET"])
+@api.route("/packages/leandings/<int:id>", methods=["GET"])
 def handle_list_leanding_from_a_package(id):
 
     package = Packages.query.filter_by(id=id, deleted_at=None).first()
