@@ -18,10 +18,10 @@ class Users(db.Model):
     username = db.Column(db.String(120), unique=True)
     dni = db.Column(db.Integer, unique=True, nullable=False)
     # village =  db.Column(db.Integer, ForeignKey('villages.id'))
-    # volunteer_id = db.Column(db.Integer, ForeignKey('volunteers.id'))
+    volunteer_id = db.Column(db.Integer, ForeignKey('volunteers.id'))
     # avatar = db.Column(db.String(255))
 
-    # volunteers = db.relationship("Volunteers")
+    volunteers = db.relationship("Volunteers")
     # reviews = db.relationship("Reviews")
    
     # packages = db.relationship("Packages")
@@ -175,16 +175,16 @@ class Volunteers(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(120), unique=True, nullable=False)
     # village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
-    # info_reservation = db.Column(db.Integer, ForeignKey('reservations.id'))
+    info_reservation = db.Column(db.Integer, ForeignKey('reservations.id'))
 
-    # users = db.relationship("Users")
+    users = db.relationship("Users")
     # villages = db.relationship("Villages")
-    # info = db.relationship("Reservations")
+    info = db.relationship("Reservations")
     
 
 
     def __str__(self):
-        return '{} <{}>' .format(self.village_supplier, self.phone)
+        return '{} <{}>' .format(self.info_reservation, self.phone)
     
 
     def serialize(self):
