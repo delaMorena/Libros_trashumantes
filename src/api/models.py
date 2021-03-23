@@ -227,6 +227,7 @@ class Leandings(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
+<<<<<<< Updated upstream
     # user_id = db.Column(db.Integer, ForeignKey('users.id'))
     # package_id = db.Column(db.Integer, ForeignKey('packages.id'))
     returning_date = db.Column(db.DateTime)
@@ -234,12 +235,22 @@ class Leandings(db.Model):
     # users = db.relationship("Users")
     # packages = db.relationship("Packages")
     # connections = db.relationship("Connections")
+=======
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    # package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
+    returning_date = db.Column(db.DateTime)
+
+    # users = db.relationship("Users") 
+    # packages = db.relationship("Packages")
+    # volunteers = db.relationship("Volunteers")
+>>>>>>> Stashed changes
 
 
     def __str__(self):
         return '{} <{}>' .format(self.created_at, self.books_id)
     
 
+<<<<<<< Updated upstream
     def serialize(self):
         return {
             "id": self.id,
@@ -254,6 +265,18 @@ class Leandings(db.Model):
             # "password": self.password 
             # al probar en insomnia me daba error porque es campo nullable = False
         }
+=======
+    # def serialize(self):
+    #     return {
+    #         "id": self.id,
+    #         "created_at": self.created_at,
+    #         "updated_at": self.updated_at,
+    #         "deleted_at": self.deleted_at,
+    #         "returning_date": self.returning_date,
+    #         # "user": self.user_id, 
+    #         "package": self.package_id,
+    #     }
+>>>>>>> Stashed changes
     
     # def serialize_required(self):
     #     return{
