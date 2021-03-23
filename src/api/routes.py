@@ -7,7 +7,7 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Connections, Leandings, Reviews 
+from api.models import db, Users, Packages, Volunteers, Reservations, Reviews 
 from api.utils import generate_sitemap, APIException
 
 
@@ -76,13 +76,14 @@ def authorized_user():
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-    required = ["first_name", "last_name", "username", "email", "password"]
+    required = ["first_name", "last_name", "username", "email", "password", "dni"]
     types = {
         "first_name": str,
         "last_name": str,
         "username": str,
         "email": str,
-        "password": str
+        "password": str,
+        "dni": int
     }
     payload = request.get_json()
 
@@ -191,38 +192,44 @@ def handle_delete_user(id):
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])
 def handle_get_all_packages():
-    
-    return jsonify(Packages), 201
+    packages = []
+
+    for package in Packages.query.all():
+        packages.append(package.serialize())    
+    return jsonify(packages), 201
 
 @api.route("/packages/<int:id>", methods=["GET"])
 def handle_get_one_package(id):
+    package = Packages.query.get(id)
+
+    if not package: 
+        return "Package not found", 404
+    return jsonify(package.serialize()), 201
+
+
+################################# VOLUNTEERS #################################
+@api.route("/volunteers", methods=["GET"])
+def handle_get_all_volunteers():
+    volunteers = []
+
+    for volunteer in Volunteers.query.all():
+        volunteers.append(volunteer.serialize())
+    return jsonify(volunteers), 201
+
+
+@api.route("/volunteers/<int:id>", methods=["GET"])
+def handle_get_one_volunteer(id):
     
-    return jsonify(package), 201
+    volunteer = Volunteers.query.get(id)
 
-
-################################# CONNECTIONS #################################
-@api.route("/connections", methods=["GET"])
-def handle_get_all_connections():
-    connections = []
-
-    for connection in Connections.query.all():
-        connections.append(connection.serialize())
-    return jsonify(connections), 201
-
-
-@api.route("/packages/<int:id>", methods=["GET"])
-def handle_get_one_connections(id):
+    if not volunteer: 
+        return "Volunteer not found", 404
     
-    connection = Connections.query.get(id)
+    return jsonify(volunteer.serialize()), 201
 
-    if not connection: 
-        return "Connection not found", 404
-    
-    return jsonify(connection.serialize()), 201
-
-################################# LEANDINGS #################################
-@api.route("/leandings", methods= ["POST"])
-def handle_create_leanding():
+################################# RESERVATIONS #################################
+@api.route("/reservations", methods= ["POST"])
+def handle_create_reservation():
 
     payload = request.get_json()
 
@@ -247,47 +254,60 @@ def handle_create_leanding():
         if field not in payload or payload[field] is None:
             abort(400)
 
-    leanding = Leandings(**payload)
+    reservation = Reservations(**payload)
 
-    db.session.add(leanding)
+    db.session.add(reservation)
     db.session.commit()
 
-    return jsonify(leanding.serialize()), 201
+    return jsonify(reservation.serialize()), 201
 # GET all/one
 #obtener todas las reservas
+@api.route("/reservations", methods=["GET"])
+def handle_get_all_reservations():
+    reservations = []
+
+    for reservation in Reservations.query.filter_by(deleted_at=None).all():
+        reservations.append(reservation.serialize())
+
+    return jsonify(reservations), 200
 
 # obtener las reservas de un usuario específico
-@api.route("/leandings/<int:id>", methods=["GET"])
-def handle_get_leandings(id):
+@api.route("/users/reservations", methods=["GET"])
+def handle_get_reservations():
 
     user = authorized_user()
 
     if not user:
         return "User not authorized", 403
 
-    leanding = Leandings.query.filter_by(id=id, deleted_at=None).first()
+    reservations = []
 
-    if not leanding:
-        return "Leanding not found", 404
+    for reservation in user.reservations:
+        reservations.append(reservation.serialize())
+
+    reservations.sort(key=lambda x: x.get("updated_at"),reverse=True)
+
+    if not reservation:
+        return "Reservation not found", 404
         
-    return jsonify(leanding.serialize()), 200
+    return jsonify(reservation.serialize()), 200
 
 #obtener las reservas de un paquete específico
-@api.route("/package/<int:id>", methods=["GET"])
-def handle_list_leanding_from_a_package(id):
+@api.route("/packages/reservations/<int:id>", methods=["GET"])
+def handle_list_reservations_from_a_package(id):
 
     package = Packages.query.filter_by(id=id, deleted_at=None).first()
-    leandings = []
+    reservations = []
 
     if not package:
         return "Package not found", 404
 
-    for leanding in package.leanding:
-        leandings.append(leanding.serialize())
+    for reservation in package.reservations:
+        reservations.append(reservation.serialize())
         
     # posts.sort(key=lambda x: x.get("updated_at"),reverse=True)
 
-    return jsonify(leandings), 200
+    return jsonify(reservations), 200
 
 # PUT or DELETE???? DUDA
 

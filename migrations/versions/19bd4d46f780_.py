@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 5b0b592d7ce4
+Revision ID: 19bd4d46f780
 Revises: 
-Create Date: 2021-03-12 15:53:46.771474
+Create Date: 2021-03-22 21:44:00.693144
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5b0b592d7ce4'
+revision = '19bd4d46f780'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,24 +30,7 @@ def upgrade():
     sa.Column('book_description', sa.String(length=500), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('connections',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('first_name', sa.String(length=80), nullable=True),
-    sa.Column('last_name', sa.String(length=120), nullable=True),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('phone', sa.String(length=120), nullable=False),
-    sa.Column('village_supplier', sa.Integer(), nullable=True),
-    sa.Column('info_reservation', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['info_reservation'], ['leandings.id'], ),
-    sa.ForeignKeyConstraint(['village_supplier'], ['villages.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('phone')
-    )
-    op.create_table('leandings',
+    op.create_table('reservations',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
@@ -58,24 +41,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['package_id'], ['packages.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('packages',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-    sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('books_id', sa.Integer(), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('package_tittle', sa.String(length=120), nullable=True),
-    sa.Column('suitable_ages', sa.String(length=120), nullable=True),
-    sa.Column('subject', sa.String(length=120), nullable=True),
-    sa.Column('reserved_status', sa.Boolean(), nullable=False),
-    sa.Column('date_reservation', sa.String(length=120), nullable=True),
-    sa.Column('package_description', sa.Text(), nullable=False),
-    sa.ForeignKeyConstraint(['books_id'], ['books.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('package_tittle')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -89,9 +54,9 @@ def upgrade():
     sa.Column('username', sa.String(length=120), nullable=True),
     sa.Column('dni', sa.Integer(), nullable=False),
     sa.Column('village', sa.Integer(), nullable=True),
-    sa.Column('connection_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['connection_id'], ['connections.id'], ),
+    sa.Column('volunteer_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['village'], ['villages.id'], ),
+    sa.ForeignKeyConstraint(['volunteer_id'], ['volunteers.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('dni'),
     sa.UniqueConstraint('email'),
@@ -106,16 +71,50 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('village_name')
     )
+    op.create_table('volunteers',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('deleted_at', sa.DateTime(), nullable=True),
+    sa.Column('first_name', sa.String(length=80), nullable=True),
+    sa.Column('last_name', sa.String(length=120), nullable=True),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('phone', sa.String(length=120), nullable=False),
+    sa.Column('village_supplier', sa.Integer(), nullable=True),
+    sa.Column('info_reservation', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['info_reservation'], ['reservations.id'], ),
+    sa.ForeignKeyConstraint(['village_supplier'], ['villages.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('phone')
+    )
+    op.create_table('packages',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
+    sa.Column('deleted_at', sa.DateTime(), nullable=True),
+    sa.Column('books_id', sa.Integer(), nullable=True),
+    sa.Column('package_tittle', sa.String(length=120), nullable=True),
+    sa.Column('suitable_ages', sa.String(length=120), nullable=True),
+    sa.Column('subject', sa.String(length=120), nullable=True),
+    sa.Column('package_description', sa.Text(), nullable=False),
+    sa.Column('reserved_status', sa.Boolean(), nullable=False),
+    sa.Column('date_reservation', sa.String(length=120), nullable=True),
+    sa.ForeignKeyConstraint(['books_id'], ['books.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('package_tittle')
+    )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
-    sa.Column('writer_revies_id', sa.Integer(), nullable=True),
-    sa.Column('book_reviewed_id', sa.Integer(), nullable=True),
+    sa.Column('writer_reviews_id', sa.Integer(), nullable=True),
+    sa.Column('package_reviewed_id', sa.Integer(), nullable=True),
     sa.Column('text_review', sa.Text(), nullable=False),
-    sa.ForeignKeyConstraint(['book_reviewed_id'], ['books.id'], ),
-    sa.ForeignKeyConstraint(['writer_revies_id'], ['users.id'], ),
+    sa.Column('rating', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['package_reviewed_id'], ['packages.id'], ),
+    sa.ForeignKeyConstraint(['writer_reviews_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
@@ -124,10 +123,10 @@ def upgrade():
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('reviews')
+    op.drop_table('packages')
+    op.drop_table('volunteers')
     op.drop_table('villages')
     op.drop_table('users')
-    op.drop_table('packages')
-    op.drop_table('leandings')
-    op.drop_table('connections')
+    op.drop_table('reservations')
     op.drop_table('books')
     # ### end Alembic commands ###
