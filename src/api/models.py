@@ -11,27 +11,17 @@ class Users(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    first_name = db.Column(db.String(80), nullable=False)
+    first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    username = db.Column(db.String(120), unique=True)
-    dni = db.Column(db.Integer, unique=True, nullable=False)
-    village =  db.Column(db.Integer, ForeignKey('villages.id'))
-    volunteer_id = db.Column(db.Integer, ForeignKey('volunteers.id'))
-    # avatar = db.Column(db.String(255))
-
-    volunteers = db.relationship("Volunteers")
-    villages = db.relationship("Villages")
-    # reviews = db.relationship("Reviews")
-   
-    # packages = db.relationship("Packages")
-    # reservations = db.relationship("Reservations")
-    
-
-
+    age= db.Column(db.Integer(3), nullable=False)
+    dni = db.Column(db.String(20), unique=True, nullable=False)
+    #tengo dudas si hacemos el FK de villages, todo por leer documentación
+    villages =  db.Column(db.String(200), ForeignKey('villages.id'))
+        
     def __str__(self):
-        return '{} <{}>' .format(self.username, self.email)
+        # return '{} <{}>' .format(self.username, self.email)
     
 
     def serialize(self):
@@ -43,29 +33,10 @@ class Users(db.Model):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "username": self.username,
-            "village": self.village
-            # "avatar": self.avatar
+            "age": self.age,
+            "village": self.villages.village_name
         }
     
-    # def serialize_required(self):
-    #     return{
-    #         "first_name": str,
-    #         "last_name": str,
-    #         "email": str,
-    #         "username": str,
-    #         "avatar": str,
-    #         "password": str
-    #     }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         "first_name": str,
-    #         "last_name": str,
-    #         "email": str,
-    #         "username": str,
-    #         "avatar": str
-    #     }
 
 class Villages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,10 +44,12 @@ class Villages(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
     village_name = db.Column(db.String(125), unique=True, nullable = False)
-    
+    volunteer_first_name = db.Column(db.String(80), nullable = False))
+    volunteer_last_name = db.Column(db.String(120), nullable = False))
+    volunteer_email = db.Column(db.String(120), unique=True, nullable=False)
+    volunteer_phone = db.Column(db.String(120), nullable=False)
 
-    # citizens = db.relationship("Users")
-    # designated_volunteer = db.relationship("Volunteers")
+    users = db.relationship('Users')
 
     def __str__(self):
         return '{} <{}>' .format(self.village_name)
@@ -89,17 +62,10 @@ class Villages(db.Model):
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
             "village_name": self.village_name
+            "volunteer": self.volunteer_first_name + self.volunteer_last_name,
+            "email": self.volunteer_email,
+            "phone": self.volunteer_phone
         }
-
-    # def serialize_required(self):
-    #     return{
-    #         'village_name': str
-    #     }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         'village_name': str
-    #     }
     
 
 class Packages(db.Model):
@@ -109,18 +75,17 @@ class Packages(db.Model):
     deleted_at = db.Column(db.DateTime) 
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
     # user_id = db.Column(db.Integer, ForeignKey('users.id')) no estoy segura de que haya que ponerlo puesto que ya existe la tabla intermedia "Reservations"
+    suitable_ages =  db.Column(db.String(3))
     package_tittle = db.Column(db.String(120), unique=True)
-    suitable_ages =  db.Column(db.String(120))
-    subject = db.Column(db.String(120))
     package_description = db.Column(db.Text, nullable=False)
     reserved_status = db.Column(db.Boolean(), nullable=False)
     date_reservation = db.Column(db.String(120))
     # reserved_status y date_reservation no sé si irían en reservations directamente
     
 
-    # users = db.relationship("Users")
+    users = db.relationship("Users")
     books = db.relationship("Books")
-    # reservations = db.relationship("Reservations")
+    reservations = db.relationship("Reservations")
 
     def __str__(self):
         return '{} <{}>' .format(self.package_tittle, self.package_description)
@@ -137,89 +102,11 @@ class Packages(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "books": self.books_id,
+            "books": self.books_id, #si quiero todos los books, lista de books no habrá que hacer lo mismo de reviews? 
             "suitable_ages": self.suitable_ages,
             "package_tittle": self.package_tittle
         }
-    # def serialize_required(self):
-    #     return{
-    #         "books_id": int,
-    #         "user_id": int,
-    #         "package_tittle": str,
-    #         "suitable_ages": str,
-    #         "subject": str,
-    #         "reserved_status": bool,
-    #         "date_reservation": str,
-    #         # "package_description": ?
-    #     }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         "books_id": int,
-    #         "user_id": int,
-    #         "package_tittle": str,
-    #         "suitable_ages": str,
-    #         "subject": str,
-    #         "reserved_status": bool,
-    #         "date_reservation": str,
-    #         # "package_description": ?
-    #     }
-
-
-class Volunteers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
-    deleted_at = db.Column(db.DateTime) 
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(120))
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    phone = db.Column(db.String(120), unique=True, nullable=False)
-    village_supplier = db.Column(db.Integer, ForeignKey('villages.id'))
-    info_reservation = db.Column(db.Integer, ForeignKey('reservations.id'))
-
-    # users = db.relationship("Users") pruebo a quitarlo para buscar el error
-    villages = db.relationship("Villages")
-    info = db.relationship("Reservations")
-    
-
-
-    def __str__(self):
-        return '{} <{}>' .format(self.info_reservation, self.email, self.phone)
-    
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-            "deleted_at": self.deleted_at,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email,
-            "phone": self.phone,
-            # "village_supplier": self.village_supplier
-        }
-
-    # def serialize_required(self):
-    #         return{
-    #             "first_name": str,
-    #             "last_name": str,
-    #             "email": str,
-    #             "phone": str,
-    #             "village_supplier": str,
-    #             "info_reservation": int
-    #         }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         "first_name": str,
-    #         "last_name": str,
-    #         "email": str,
-    #         "phone": str,
-    #         "village_supplier": str,
-    #         "info_reservation": int
-    #     }
+ 
 
 class Reservations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
