@@ -21,7 +21,7 @@ class Users(db.Model):
     villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
         
     def __str__(self):
-        return '{} <{}>' .format(self.username, self.email)
+        return '{} <{}>' .format(self.email, self.dni)
     
     def serialize(self):
         return {
@@ -112,25 +112,13 @@ class Reservations(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    # user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
     returning_date = db.Column(db.DateTime)
 
-    # users = db.relationship("Users")
-    # packages = db.relationship("Packages")
-    # connections = db.relationship("Connections")
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    # package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
-    returning_date = db.Column(db.DateTime)
-
-    # users = db.relationship("Users") 
-    # packages = db.relationship("Packages")
-    # volunteers = db.relationship("Volunteers")
-    # users = db.relationship("Users") 
+    users = db.relationship("Users")
     packages = db.relationship("Packages")
-    # volunteers = db.relationship("Volunteers")
-
-
+   
 
     def __str__(self):
         return '{} <{}>' .format(self.returning_date, self.package_id)
