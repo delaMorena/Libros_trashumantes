@@ -7,7 +7,7 @@ import hmac
 # import jwt
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Volunteers, Reservations, Reviews 
+from api.models import db, Users, Packages, Reservations, Reviews 
 from api.utils import generate_sitemap, APIException
 
 
