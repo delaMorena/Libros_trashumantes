@@ -76,28 +76,28 @@ def authorized_user():
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-    required = ["first_name", "last_name", "username", "email", "password", "dni"]
-    types = {
-        "first_name": str,
-        "last_name": str,
-        "username": str,
-        "email": str,
-        "password": str,
-        "dni": int
-    }
+    # required = ["first_name", "last_name", "username", "email", "password", "dni"]
+    # types = {
+    #     "first_name": str,
+    #     "last_name": str,
+    #     "username": str,
+    #     "email": str,
+    #     "password": str,
+    #     "dni": int
+    # }
     payload = request.get_json()
 
-    for key, value in payload.items():
-        if key in types and not isinstance(value, types[key]):
-            abort(400, f"{key} is not {types[key]}")
+    # for key, value in payload.items():
+    #     if key in types and not isinstance(value, types[key]):
+    #         abort(400, f"{key} is not {types[key]}")
 
-    for field in required:
-        if field not in payload or payload[field] is None:
-            abort(400, "este es un mensaje en el error 400")
+    # for field in required:
+    #     if field not in payload or payload[field] is None:
+    #         abort(400, "este es un mensaje en el error 400")
 
-    key = MAC.encode('utf-8')
-    msg = payload['password'].encode('utf-8')
-    algo = hashlib.sha512
+    # key = MAC.encode('utf-8')
+    # msg = payload['password'].encode('utf-8')
+    # algo = hashlib.sha512
 
     payload['password'] = hmac.new(key, msg, algo).hexdigest()
 
