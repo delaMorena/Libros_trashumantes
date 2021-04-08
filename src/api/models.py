@@ -19,7 +19,11 @@ class Users(db.Model):
     dni = db.Column(db.String(20), unique=True, nullable=False)
     #tengo dudas si hacemos el FK de villages, todo por leer documentación
     villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
-        
+
+    reviews = db.relationship('Reviews')
+    reservations = db.relationship('Reservations')
+    
+
     def __str__(self):
         return '{} <{}>' .format(self.email, self.dni)
     
