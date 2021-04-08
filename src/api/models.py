@@ -15,15 +15,14 @@ class Users(db.Model):
     last_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    age= db.Column(db.Integer(3), nullable=False)
+    age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     #tengo dudas si hacemos el FK de villages, todo por leer documentación
-    villages =  db.Column(db.String(200), ForeignKey('villages.id'))
+    villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
         
     def __str__(self):
-        # return '{} <{}>' .format(self.username, self.email)
+        return '{} <{}>' .format(self.email, self.dni)
     
-
     def serialize(self):
         return {
             "id": self.id,
@@ -44,8 +43,8 @@ class Villages(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
     village_name = db.Column(db.String(125), unique=True, nullable = False)
-    volunteer_first_name = db.Column(db.String(80), nullable = False))
-    volunteer_last_name = db.Column(db.String(120), nullable = False))
+    volunteer_first_name = db.Column(db.String(80), nullable = False)
+    volunteer_last_name = db.Column(db.String(120), nullable = False)
     volunteer_email = db.Column(db.String(120), unique=True, nullable=False)
     volunteer_phone = db.Column(db.String(120), nullable=False)
 
@@ -61,8 +60,8 @@ class Villages(db.Model):
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "village_name": self.village_name
-            "volunteer": self.volunteer_first_name + self.volunteer_last_name,
+            "village_name": self.village_name,
+            "volunteer": self.volunteer_first_name,
             "email": self.volunteer_email,
             "phone": self.volunteer_phone
         }
@@ -83,7 +82,7 @@ class Packages(db.Model):
     # reserved_status y date_reservation no sé si irían en reservations directamente
     
 
-    users = db.relationship("Users")
+    # users = db.relationship("Users")
     books = db.relationship("Books")
     reservations = db.relationship("Reservations")
 
@@ -113,25 +112,13 @@ class Reservations(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    # user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
     package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
     returning_date = db.Column(db.DateTime)
 
-    # users = db.relationship("Users")
-    # packages = db.relationship("Packages")
-    # connections = db.relationship("Connections")
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    # package_id = db.Column(db.Integer, ForeignKey('packages.id')) 
-    returning_date = db.Column(db.DateTime)
-
-    # users = db.relationship("Users") 
-    # packages = db.relationship("Packages")
-    # volunteers = db.relationship("Volunteers")
-    # users = db.relationship("Users") 
+    users = db.relationship("Users")
     packages = db.relationship("Packages")
-    volunteers = db.relationship("Volunteers")
-
-
+   
 
     def __str__(self):
         return '{} <{}>' .format(self.returning_date, self.package_id)
