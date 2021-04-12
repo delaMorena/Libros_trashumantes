@@ -17,11 +17,13 @@ class Users(db.Model):
     age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     #tengo dudas si hacemos el FK de villages, todo por leer documentación
-    villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
 
+    villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
+  
+    villages = db.relationship('Villages')
     reviews = db.relationship('Reviews')
     reservations = db.relationship('Reservations')
-    
+
 
     def __str__(self):
         return '{} <{}>' .format(self.email, self.dni)
@@ -36,7 +38,7 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "age": self.age,
-            "village": self.villages.village_name
+            "village": self.villages_id
         }
     
 
@@ -54,7 +56,7 @@ class Villages(db.Model):
     users = db.relationship('Users')
 
     def __str__(self):
-        return '{} <{}>' .format(self.village_name)
+        return '{} <{}>' .format(self.village_name, self.volunteer_phone)
     
 
     def serialize(self):
