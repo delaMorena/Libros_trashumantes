@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
 
 export const Home = () => {
@@ -8,17 +7,17 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">{store.message || "Loading message from the backend..."}</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
-					Read documentation
-				</a>
-			</p>
+			<div>
+				<h1>Te gusta leer </h1>
+				<h3>Pero todas las bibliotecas están cerradas o sus horarios no te cuadran...</h3>
+			</div>
+			<div>
+				<h1>Eres del Valle de Tena </h1>
+				<h3>Resides en algún pueblo de la Comarca Alto-Gállego</h3>
+			</div>
+			<div className="mt-5">
+				<h2>¿Como funciona libros trashumantes?</h2>
+			</div>
 		</div>
 	);
 };
