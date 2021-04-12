@@ -1,11 +1,12 @@
-const baseUrl = process.env.BACKEND_URL;
+// const baseUrl = "https://3001-aquamarine-capybara-rmjshrbs.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {},
 		actions: {
 			createUser(input) {
-				const endpoint = `${baseUrl}/users`;
+				const endpoint = "https://3001-aquamarine-capybara-rmjshrbs.ws-eu03.gitpod.io/api/users";
+
 				const method = "POST";
 				const config = {
 					method: method,
@@ -15,7 +16,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: input.lastName,
 						email: input.email,
 						password: input.password,
-						username: input.username
+						dni: input.dni,
+						age: input.age,
+						village_id: input.village
 					})
 				};
 				fetch(endpoint, config)
@@ -26,6 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(json => {
 						console.log(json);
 					});
+				// console.log("input: ", input);
 			}
 		}
 	};

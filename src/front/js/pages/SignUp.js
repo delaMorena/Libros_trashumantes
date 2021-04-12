@@ -4,13 +4,14 @@ import { Context } from "../store/appContext";
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
 
-	const [firstName, setFirstName] = useState("mariano");
-	const [lastName, setLastName] = useState("el corto");
-	const [age, setAge] = useState("3");
-	const [email, setEmail] = useState("mari@ano");
+	const [firstName, setFirstName] = useState("mozica");
+	const [lastName, setLastName] = useState("moza");
+	const [age, setAge] = useState("34");
+	const [email, setEmail] = useState("moz@ano");
 	const [password, setPassword] = useState("123");
-	const [confirmPassword, setConfirmPassword] = useState("123");
-	const [dni, setDni] = useState(123);
+	// const [confirmPassword, setConfirmPassword] = useState("123");
+	const [dni, setDni] = useState("1234");
+	const [village, setVillage] = useState(1);
 
 	const HandleClick = () => {
 		// console.log({
@@ -29,11 +30,10 @@ export const SignUp = () => {
 			firstName: firstName,
 			lastName: lastName,
 			dni: dni,
-			age: age
+			age: age,
+			village: village
 		};
-		actions.createUser(payload, () => {
-			history.push("/inicio");
-		});
+		actions.createUser(payload);
 	};
 
 	return (
@@ -93,6 +93,15 @@ export const SignUp = () => {
 					/>
 				</div>
 				<div className="mb-3">
+					<label className="form-label">Pueblo</label>
+					<input
+						type="number"
+						className="form-control"
+						value={village}
+						onChange={event => setVillage(event.target.value)}
+					/>
+				</div>
+				{/* <div className="mb-3">
 					<label className="form-label">Repite Contraseña</label>
 					<input
 						type="password"
@@ -100,7 +109,7 @@ export const SignUp = () => {
 						value={confirmPassword}
 						onChange={event => setConfirmPassword(event.target.value)}
 					/>
-				</div>
+				</div> */}
 
 				<button type="submit" className="btn btn-primary" onClick={HandleClick}>
 					Registrarse

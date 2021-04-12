@@ -13,12 +13,13 @@ from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
 
-####################################    KEYS    #################################
+####################################    KEYS    
 MAC= 'D9GSf7pVqNXYhSKKE4LLh8ARBrMJGNuH'
 JWT_SECRET= 'HGRrM3xhfSEzNY7qDypJK6YMyaTFD76d'
 
-#################################    ENDPOINTS    #################################
-################################# REFACTORITATION #################################
+###############################################   ENDPOINTS    
+
+################################# REFACTORITATION 
 # Validación de datos en actualizar.
 def validation_and_payload(Models): 
     model = Models.query.get(id)
@@ -57,7 +58,8 @@ def get_all_from_models(model):
 
     return jsonify(newList), 200
 
-################################# AUTHORIZED_USERS #################################
+################################# AUTHORIZED_USERS 
+
 def authorized_user():
     authorization = request.headers.get('Authorization')
 
@@ -76,6 +78,15 @@ def authorized_user():
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
+
+    payload = request.get_json()
+
+    user = Users(**payload)
+
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify(user.serialize()), 201
     # required = ["first_name", "last_name", "username", "email", "password", "dni"]
     # types = {
     #     "first_name": str,
@@ -85,7 +96,7 @@ def handle_create_user():
     #     "password": str,
     #     "dni": int
     # }
-    payload = request.get_json()
+    # payload = request.get_json()
 
     # for key, value in payload.items():
     #     if key in types and not isinstance(value, types[key]):
@@ -99,19 +110,19 @@ def handle_create_user():
     # msg = payload['password'].encode('utf-8')
     # algo = hashlib.sha512
 
-    payload['password'] = hmac.new(key, msg, algo).hexdigest()
+    # payload['password'] = hmac.new(key, msg, algo).hexdigest()
 
-    user = Users(**payload)
-    db.session.add(user)
-    db.session.commit()
+    # user = Users(**payload)
+    # db.session.add(user)
+    # db.session.commit()
 
-    email = {'sub': user.email}
-    secret = JWT_SECRET.encode('utf-8')
-    algo="HS256"
+    # email = {'sub': user.email}
+    # secret = JWT_SECRET.encode('utf-8')
+    # algo="HS256"
 
-    token = jwt.encode(email, secret, algorithm=algo)
+    # token = jwt.encode(email, secret, algorithm=algo)
 
-    return jsonify({"token":token}), 201
+    # return jsonify({"token":token}), 201
 
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
