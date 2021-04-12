@@ -80,12 +80,12 @@ def authorized_user():
 def handle_create_user():
 
     payload = request.get_json()
-
+    print("soy payload:",payload)
     user = Users(**payload)
 
     db.session.add(user)
     db.session.commit()
-
+    print("soy user", user)
     return jsonify(user.serialize()), 201
     # required = ["first_name", "last_name", "username", "email", "password", "dni"]
     # types = {

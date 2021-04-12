@@ -13,7 +13,7 @@ export const SignUp = () => {
 	const [dni, setDni] = useState("1234");
 	const [village, setVillage] = useState(1);
 
-	const HandleClick = () => {
+	const HandleClickLogin = () => {
 		// console.log({
 		// 	email: email,
 		// 	firstName: firstName,
@@ -95,7 +95,7 @@ export const SignUp = () => {
 				<div className="mb-3">
 					<label className="form-label">Pueblo</label>
 					<input
-						type="number"
+						type="text"
 						className="form-control"
 						value={village}
 						onChange={event => setVillage(event.target.value)}
@@ -111,7 +111,7 @@ export const SignUp = () => {
 					/>
 				</div> */}
 
-				<button type="submit" className="btn btn-primary" onClick={HandleClick}>
+				<button type="button" className="btn btn-primary" onClick={HandleClickLogin}>
 					Registrarse
 				</button>
 			</form>

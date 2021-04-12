@@ -16,9 +16,7 @@ class Users(db.Model):
     password = db.Column(db.String(128), nullable=False)
     age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
-    #tengo dudas si hacemos el FK de villages, todo por leer documentación
-
-    villages =  db.Column(db.Integer(), ForeignKey('villages.id'))
+    village =  db.Column(db.Integer(), ForeignKey('villages.id'))
   
     villages = db.relationship('Villages')
     reviews = db.relationship('Reviews')
@@ -38,7 +36,7 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "age": self.age,
-            "village": self.villages_id
+            "village": self.villages.village_name
         }
     
 
@@ -78,6 +76,7 @@ class Packages(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
     # user_id = db.Column(db.Integer, ForeignKey('users.id')) no estoy segura de que haya que ponerlo puesto que ya existe la tabla intermedia "Reservations"
     suitable_ages =  db.Column(db.String(3))
     package_tittle = db.Column(db.String(120), unique=True)
