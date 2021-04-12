@@ -4,7 +4,6 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.sql import func
 
 db = SQLAlchemy()
-# será que esto da error en el vs code? Digo.. porque "se supone" que es posgressSQL
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,11 +81,9 @@ class Packages(db.Model):
     package_tittle = db.Column(db.String(120), unique=True)
     package_description = db.Column(db.Text, nullable=False)
     reserved_status = db.Column(db.Boolean(), nullable=False)
-    date_reservation = db.Column(db.String(120))
-    # reserved_status y date_reservation no sé si irían en reservations directamente
-    
+      
 
-    # users = db.relationship("Users")
+    users = db.relationship("Users")
     books = db.relationship("Books")
     reservations = db.relationship("Reservations")
 
@@ -107,7 +104,9 @@ class Packages(db.Model):
             "deleted_at": self.deleted_at,
             "books": self.books_id, #si quiero todos los books, lista de books no habrá que hacer lo mismo de reviews? 
             "suitable_ages": self.suitable_ages,
-            "package_tittle": self.package_tittle
+            "package_tittle": self.package_tittle,
+            "package_description": self.package_description,
+            "reserved_status": self.reserved_status
         }
  
 
@@ -136,8 +135,8 @@ class Reservations(db.Model):
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
             "returning_date": self.returning_date,
-            # "user": self.user_id, 
-            "package": self.package_id,
+            "user": self.user_id, 
+            "package": self.package_id
         }
 
 
@@ -170,20 +169,6 @@ class Reviews(db.Model):
             "text_review": self.text_review
         }
     
-    # def serialize_required(self):
-    #     return{
-    #         "writer_revies_id": int,
-    #         "package_reviewed_id": int,
-    #         # "text_review": text?
-    #     }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         "writer_revies_id": int,
-    #         "package_reviewed_id": int,
-    #         # "text_review": text?
-    #     }
-
 
 class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -216,22 +201,3 @@ class Books(db.Model):
             "pages": self.pages,
             "book_description": self.book_description,
         }
-
-    # def serialize_required(self):
-    #     return{
-    #         "title": str,
-    #         "author": str,
-    #         "suitable_ages": str,
-    #         "pages": str,
-    #         "book_description": str
-    #     }
-
-    # def serialize_all_types(self):
-    #     return{
-    #         "title": str,
-    #         "author": str,
-    #         "suitable_ages": str,
-    #         "pages": str,
-    #         "book_description": str
-    #     }
-
