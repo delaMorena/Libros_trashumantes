@@ -36,7 +36,8 @@ class Users(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "age": self.age,
-            "village": self.villages.village_name
+            "dni": self.dni,
+            # "village": self.villages.village_name
         }
     
 

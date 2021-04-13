@@ -1,20 +1,23 @@
-// const baseUrl = "https://3001-gold-cod-6w48l46i.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-beige-dormouse-jkq2mnc1.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
+	const token = localStorage.getItem("token");
 	return {
 		store: {
-			newUser: {}
+			user: [],
+			token: token,
+			error: null
 		},
 		actions: {
-			createUser(input) {
-				const store = getStore();
-				const endpoint = "https://3001-gold-cod-6w48l46i.ws-eu03.gitpod.io/api/users";
+			createUser(input, callback) {
+				const endpoint = `${baseUrl}/users`;
 
 				const method = "POST";
 				const config = {
 					method: method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
 					},
 					body: JSON.stringify({
 						first_name: input.firstName,
@@ -30,10 +33,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => {
 						return response.json();
 					})
-					.then(responseJson => {
-						setStore({ newUser: responseJson });
-						console.log("contacto", store.newUser);
+					.then(json => {
+						setStore({ token: json.token });
+
+						localStorage.setItem("token", json.token);
+						callback(); //por qué este callback()???
+					})
+					.catch(error => {
+						console.log(error);
 					});
+			},
+			logIn(input, callback) {
+				const endpoint = `${baseUrl}/login`;
+				const config = {
+					method: "POST",
+					body: JSON.stringify({
+						email: input.email,
+						password: input.password
+					}),
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					}
+				};
+				fetch(endpoint, config)
+					.then(response => {
+						if (response.status == 403) {
+							setStore({ error: response });
+							return response.json();
+						}
+						setStore({ error: null });
+						return response.json();
+					})
+					.then(json => {
+						setStore({ token: json.token });
+						localStorage.setItem("token", json.token);
+						callback();
+					})
+					.catch(error => {
+						setStore(error);
+					});
+			},
+			logOut() {
+				localStorage.removeItem("token");
+				setStore({ token: null });
 			}
 		}
 	};
