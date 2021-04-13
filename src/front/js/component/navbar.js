@@ -14,6 +14,9 @@ export const Navbar = () => {
 				<Link to="/login">
 					<button className="btn btn-primary mx-2">Inicia sesión</button>
 				</Link>
+				<Link to="/welcome">
+					<button className="btn btn-primary mx-2">Tu enlace</button>
+				</Link>
 			</div>
 		</nav>
 	);

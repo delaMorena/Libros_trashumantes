@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-
+import { useHistory } from "react-router-dom";
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
+	const history = useHistory();
 
 	const [firstName, setFirstName] = useState("mozica");
 	const [lastName, setLastName] = useState("moza");
@@ -14,16 +15,6 @@ export const SignUp = () => {
 	const [village, setVillage] = useState(1);
 
 	const HandleClickLogin = () => {
-		// console.log({
-		// 	email: email,
-		// 	firstName: firstName,
-		// 	lastName: lastName,
-		// 	age: age,
-		// 	dni: dni,
-		// 	password: password,
-		// 	confirmPassword: confirmPassword
-		// });
-
 		const payload = {
 			email: email,
 			password: password,
@@ -34,6 +25,8 @@ export const SignUp = () => {
 			village: village
 		};
 		actions.createUser(payload);
+		alert("usuario " + firstName + " " + lastName + " creado correctamente");
+		history.push("/welcome");
 	};
 
 	return (
@@ -101,16 +94,6 @@ export const SignUp = () => {
 						onChange={event => setVillage(event.target.value)}
 					/>
 				</div>
-				{/* <div className="mb-3">
-					<label className="form-label">Repite Contraseña</label>
-					<input
-						type="password"
-						className="form-control"
-						value={confirmPassword}
-						onChange={event => setConfirmPassword(event.target.value)}
-					/>
-				</div> */}
-
 				<button type="button" className="btn btn-primary" onClick={HandleClickLogin}>
 					Registrarse
 				</button>
