@@ -23,7 +23,7 @@ export const Welcome = () => {
 					</div>
 					<div className="col-6">
 						<h4> Tu enlace es:</h4>
-						<strong>{store.village}</strong>
+						<strong>{store.user.village}</strong>
 						<br />
 						<h4> Tu teléfono de contacto:</h4>
 						<strong>665889003</strong>

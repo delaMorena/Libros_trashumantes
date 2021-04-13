@@ -10,7 +10,7 @@ import jwt
 import datetime, json
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Reservations, Reviews 
+from api.models import db, Users, Packages, Reservations, Reviews, Villages
 from api.utils import generate_sitemap, APIException
 
 
@@ -208,17 +208,18 @@ def handle_delete_user(id):
 
 ######################## VILLAGES
 # Obtener una villa de un usuario registrado
-# @api.route("/users/<int:id>/villages", methods=["GET"])
-# def handle_get_village_from_user(id):
+@api.route("/users/villages", methods=["GET"])
+def handle_get_village_from_user():
 
-#     user = authorized_user()
+    user = authorized_user()
 
-#     if not user:
-#         return "User not found", 404
+    if not user:
+        return "User not found", 404
 
-#     villa = Villages.query.filter_by(village=id,deleted_at=None).first()
+    user_db = Users.query.filter_by(id=user.id, deleted_at=None)
+    village = Villages.query.filter_by(id=user_db.village_id,deleted_at=None).first()
 
-#     return jsonify(villa.serialize()), 200
+    return jsonify(village.serialize()), 200
 
 
 ################################# PACKAGES  #################################
