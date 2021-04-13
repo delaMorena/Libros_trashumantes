@@ -5,7 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {},
 		actions: {
 			createUser(input) {
-				const endpoint = "https://3001-aquamarine-capybara-rmjshrbs.ws-eu03.gitpod.io/api/users";
+				const endpoint = "https://3001-rose-urial-vp1jy9ao.ws-eu03.gitpod.io/api/users";
 
 				const method = "POST";
 				const config = {
@@ -18,7 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: input.password,
 						dni: input.dni,
 						age: input.age,
-						village_id: input.village
+						village: input.village
 					})
 				};
 				fetch(endpoint, config)
