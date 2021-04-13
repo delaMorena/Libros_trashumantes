@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			user: [],
 			token: token,
-			error: null
+			error: null,
+			village: {}
 		},
 		actions: {
 			createUser(input, callback) {
@@ -99,6 +100,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({ user: data });
 						console.log("contacto", store.user);
 					});
+			},
+			async getVillage(id) {
+				const store = getStore();
+				const endpoint = `${baseUrl}/villages/${id}`;
+				const method = "GET";
+				const headers = { "Content-Type": "application/json" };
+
+				if (store.token) {
+					headers["Authorization"] = `Bearer ${store.token}`;
+				}
+
+				const config = {
+					method: method,
+					headers: headers
+				};
+				fetch(endpoint, config)
+					.then(response => response.json())
+					.then(data => {
+						setStore({
+							village: data
+						});
+						console.log("una villa: ", store.village);
+					})
+					.catch(error => alert("error: ", error));
 			}
 		}
 	};

@@ -6,7 +6,10 @@ export const Welcome = () => {
 
 	useEffect(() => {
 		actions.getUser();
-		//get.villages para volunteer name
+		console.log("user: ", store.user);
+
+		actions.getVillage();
+		console.log("store.village estoy??: ", store.village);
 	}, []);
 
 	return (
@@ -23,14 +26,17 @@ export const Welcome = () => {
 					</div>
 					<div className="col-6">
 						<h4> Tu enlace es:</h4>
-						<strong>{store.village}</strong>
+						<strong>{store.village.volunteer}</strong>
 						<br />
 						<h4> Tu teléfono de contacto:</h4>
-						<strong>665889003</strong>
+						<strong>{store.village.phone}</strong>
 						<br />
 						<h4>Hace entregas y recogidas en:</h4>
 
-						<strong>ALBERGUE DE PIEDRAFITA LOS PRIMEROS JUEVES DE CADA MES</strong>
+						<strong>
+							ALBERGUE DE {store.village.village_name}, este es mi id: {store.user.village} LOS PRIMEROS
+							JUEVES DE CADA MES
+						</strong>
 						<br />
 					</div>
 				</div>
