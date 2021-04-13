@@ -1,29 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
 
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
+
+	const history = useHistory();
 
 	const [firstName, setFirstName] = useState("mozica");
 	const [lastName, setLastName] = useState("moza");
 	const [age, setAge] = useState("34");
 	const [email, setEmail] = useState("moz@ano");
 	const [password, setPassword] = useState("123");
-	// const [confirmPassword, setConfirmPassword] = useState("123");
 	const [dni, setDni] = useState("1234");
 	const [village, setVillage] = useState(1);
 
 	const HandleClickLogin = () => {
-		// console.log({
-		// 	email: email,
-		// 	firstName: firstName,
-		// 	lastName: lastName,
-		// 	age: age,
-		// 	dni: dni,
-		// 	password: password,
-		// 	confirmPassword: confirmPassword
-		// });
-
 		const payload = {
 			email: email,
 			password: password,
@@ -33,7 +25,9 @@ export const SignUp = () => {
 			age: age,
 			village: village
 		};
-		actions.createUser(payload);
+		actions.createUser(payload, () => {
+			history.push("/");
+		});
 	};
 
 	return (
