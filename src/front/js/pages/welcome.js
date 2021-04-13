@@ -4,9 +4,14 @@ import { Context } from "../store/appContext";
 export const Welcome = () => {
 	const { store, actions } = useContext(Context);
 
+	useEffect(() => {
+		actions.getUser();
+		//get.villages para volunteer name
+	}, []);
+
 	return (
 		<div>
-			<h1>¡Bienvenida Fulanita de tal!</h1>
+			<h1>¡Bienvenida {store.user.first_name}!</h1>
 			<div className="container">
 				<div className="row">
 					<div className="col-6">
@@ -18,7 +23,7 @@ export const Welcome = () => {
 					</div>
 					<div className="col-6">
 						<h4> Tu enlace es:</h4>
-						<strong>MARIBEL VERDÍN</strong>
+						<strong>{store.village}</strong>
 						<br />
 						<h4> Tu teléfono de contacto:</h4>
 						<strong>665889003</strong>
