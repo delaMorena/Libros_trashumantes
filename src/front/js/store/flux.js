@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-beige-dormouse-jkq2mnc1.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-blue-gopher-lg9tz1z7.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -37,7 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({ token: json.token });
 
 						localStorage.setItem("token", json.token);
-						callback();
+						callback(); //por qué este callback()???
 					})
 					.catch(error => {
 						console.log(error);
@@ -77,6 +77,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut() {
 				localStorage.removeItem("token");
 				setStore({ token: null });
+			},
+
+			async getUser() {
+				const store = getStore();
+				const endpoint = `${baseUrl}/test`;
+				const method = "GET";
+				const headers = { "Content-Type": "application/json" };
+
+				if (store.token) {
+					headers["Authorization"] = `Bearer ${store.token}`;
+				}
+
+				const config = {
+					method: method,
+					headers: headers
+				};
+				await fetch(endpoint, config)
+					.then(response => response.json())
+					.then(data => {
+						setStore({ user: data });
+						console.log("contacto", store.user);
+					});
 			}
 		}
 	};

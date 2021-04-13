@@ -77,8 +77,16 @@ def authorized_user():
     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
     return user #probado en insomnia
+
+# get one user
+@api.route("/test", methods=['GET'])
+def test():
+    user = authorized_user()
+
+    return jsonify(user.serialize()), 200
+
     
-###################################    USERS    #################################
+###################################    USERS    
 @api.route("/users", methods=["POST"])
 def handle_create_user():
     payload = request.get_json()
@@ -123,6 +131,9 @@ def handle_create_user():
 
     return jsonify({"token":token}), 201 #probado en insomnia y en el front
 
+
+
+
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
     payload= request.get_json()
@@ -160,15 +171,6 @@ def handle_get_all_users():
 
     return jsonify(users), 201 #probado en insomnia (Tibi), no funciona si tiene en el serialize de Users village.. 
     
-@api.route("/users/<int:id>", methods=["GET"])
-def handle_get_one_user(id):
-    user = authorized_user() 
-    user = Users.query.get(id)
-
-    if not user: 
-        return "User not found", 404
-    
-    return jsonify(user.serialize()), 201 #probado en insomnia (Tibi)
 
 @api.route("/users/<int:id>", methods=["PUT"])
 def handle_update_one_user(id):
@@ -201,6 +203,23 @@ def handle_delete_user(id):
     db.session.commit()
 
     return jsonify(user.serialize()), 200
+
+
+
+######################## VILLAGES
+# Obtener una villa de un usuario registrado
+# @api.route("/users/<int:id>/villages", methods=["GET"])
+# def handle_get_village_from_user(id):
+
+#     user = authorized_user()
+
+#     if not user:
+#         return "User not found", 404
+
+#     villa = Villages.query.filter_by(village=id,deleted_at=None).first()
+
+#     return jsonify(villa.serialize()), 200
+
 
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])

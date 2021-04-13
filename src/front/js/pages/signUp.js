@@ -26,15 +26,15 @@ export const SignUp = () => {
 			village: village
 		};
 		actions.createUser(payload, () => {
-			history.push("/");
+			history.push("/welcome");
 		});
 	};
 
 	return (
-		<div className="m-auto">
+		<div className="container">
 			<h1>Regístrate</h1>
-			<form>
-				<div className="mb-3">
+			<div className="row mx-5">
+				<div className="mb-3  col-6">
 					<label className="form-label">Nombre</label>
 					<input
 						type="text"
@@ -42,6 +42,8 @@ export const SignUp = () => {
 						value={firstName}
 						onChange={event => setFirstName(event.target.value)}
 					/>
+				</div>
+				<div className="mb-3  col-6">
 					<label className="form-label">Apellidos</label>
 					<input
 						type="text"
@@ -50,7 +52,8 @@ export const SignUp = () => {
 						onChange={event => setLastName(event.target.value)}
 					/>
 				</div>
-				<div className="mb-3">
+
+				<div className="mb-3 col-6">
 					<label className="form-label">DNI</label>
 					<input
 						type="text"
@@ -59,7 +62,7 @@ export const SignUp = () => {
 						onChange={event => setDni(event.target.value)}
 					/>
 				</div>
-				<div className="mb-3">
+				<div className="mb-3 col-6">
 					<label className="form-label">Edad de la persona que leerá los libros</label>
 					<input
 						type="text"
@@ -68,7 +71,7 @@ export const SignUp = () => {
 						onChange={event => setAge(event.target.value)}
 					/>
 				</div>
-				<div className="mb-3">
+				<div className="mb-3 col-6">
 					<label className="form-label">Correo electrónico</label>
 					<input
 						type="email"
@@ -77,7 +80,7 @@ export const SignUp = () => {
 						onChange={event => setEmail(event.target.value)}
 					/>
 				</div>
-				<div className="mb-3">
+				<div className="mb-3 col-6">
 					<label className="form-label">Contraseña</label>
 					<input
 						type="password"
@@ -86,7 +89,7 @@ export const SignUp = () => {
 						onChange={event => setPassword(event.target.value)}
 					/>
 				</div>
-				<div className="mb-3">
+				<div className="mb-3 col-6">
 					<label className="form-label">Pueblo</label>
 					<input
 						type="text"
@@ -95,20 +98,10 @@ export const SignUp = () => {
 						onChange={event => setVillage(event.target.value)}
 					/>
 				</div>
-				{/* <div className="mb-3">
-					<label className="form-label">Repite Contraseña</label>
-					<input
-						type="password"
-						className="form-control"
-						value={confirmPassword}
-						onChange={event => setConfirmPassword(event.target.value)}
-					/>
-				</div> */}
-
-				<button type="button" className="btn btn-primary" onClick={HandleClickLogin}>
-					Registrarse
-				</button>
-			</form>
+			</div>
+			<button type="button" className="btn btn-primary ml-5" onClick={HandleClickLogin}>
+				Registrarse
+			</button>
 		</div>
 	);
 };
