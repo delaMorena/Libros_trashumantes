@@ -1,10 +1,13 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-import datetime
+
 import hashlib
 import hmac
-# import jwt
+
+import jwt
+
+import datetime, json
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
 from api.models import db, Users, Packages, Reservations, Reviews 
@@ -73,29 +76,25 @@ def authorized_user():
     payload = jwt.decode(token, secret, algorithms= [algo])
     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
-    return user
+    return user #probado en insomnia
     
 ###################################    USERS    #################################
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-
     payload = request.get_json()
-    print("soy payload:",payload)
-    user = Users(**payload)
 
-    db.session.add(user)
-    db.session.commit()
-    print("soy user", user)
-    return jsonify(user.serialize()), 201
-    # required = ["first_name", "last_name", "username", "email", "password", "dni"]
+    # required = ["first_name", "last_name", "username", "email", "password", "age", "dni", "village"]
     # types = {
     #     "first_name": str,
     #     "last_name": str,
     #     "username": str,
     #     "email": str,
     #     "password": str,
-    #     "dni": int
+    #     "age": int,
+    #     "dni": str,
+    #     "village": str
     # }
+    
     # payload = request.get_json()
 
     # for key, value in payload.items():
@@ -106,23 +105,23 @@ def handle_create_user():
     #     if field not in payload or payload[field] is None:
     #         abort(400, "este es un mensaje en el error 400")
 
-    # key = MAC.encode('utf-8')
-    # msg = payload['password'].encode('utf-8')
-    # algo = hashlib.sha512
+    key = MAC.encode('utf-8')
+    msg = payload['password'].encode('utf-8')
+    algo = hashlib.sha512
 
-    # payload['password'] = hmac.new(key, msg, algo).hexdigest()
+    payload['password'] = hmac.new(key, msg, algo).hexdigest()
 
-    # user = Users(**payload)
-    # db.session.add(user)
-    # db.session.commit()
+    user = Users(**payload)
+    db.session.add(user)
+    db.session.commit()
 
-    # email = {'sub': user.email}
-    # secret = JWT_SECRET.encode('utf-8')
-    # algo="HS256"
+    email = {'sub': user.email}
+    secret = JWT_SECRET.encode('utf-8')
+    algo="HS256"
 
-    # token = jwt.encode(email, secret, algorithm=algo)
+    token = jwt.encode(email, secret, algorithm=algo)
 
-    # return jsonify({"token":token}), 201
+    return jsonify({"token":token}), 201 #probado en insomnia y en el front
 
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
@@ -134,7 +133,7 @@ def login():
     user = Users.query.filter_by(email=email, deleted_at=None).first()
 
     if not user:
-        return "Forbidden", 403
+        return "Acceso no permitido", 403
 
     key = MAC.encode('utf-8')
     msg = payload['password'].encode('utf-8')
@@ -143,14 +142,14 @@ def login():
     hashed_password = hmac.new(key, msg, algo).hexdigest()
 
     if hashed_password != user.password:
-        return "Forbidden", 403
+        return "Acceso no permitido", 403
     
     secret = JWT_SECRET.encode('utf-8')
     payload = {"sub": user.email}
     algo = "HS256"
     token = jwt.encode(payload, secret, algorithm=algo)
 
-    return jsonify({"token": token}), 201
+    return jsonify({"token": token}), 201 #probado en insomnia y en el front (Tibi)
 
 @api.route("/users", methods=["GET"])
 def handle_get_all_users():
@@ -158,16 +157,18 @@ def handle_get_all_users():
 
     for user in Users.query.all():
         users.append(user.serialize())
-    return jsonify(users), 201
+
+    return jsonify(users), 201 #probado en insomnia (Tibi), no funciona si tiene en el serialize de Users village.. 
     
 @api.route("/users/<int:id>", methods=["GET"])
 def handle_get_one_user(id):
+    user = authorized_user() 
     user = Users.query.get(id)
 
     if not user: 
         return "User not found", 404
     
-    return jsonify(user.serialize()), 201
+    return jsonify(user.serialize()), 201 #probado en insomnia (Tibi)
 
 @api.route("/users/<int:id>", methods=["PUT"])
 def handle_update_one_user(id):
@@ -183,6 +184,7 @@ def handle_update_one_user(id):
     
     db.session.add(user)
     db.session.commit()
+    
     return jsonify(user.serialize()), 200
 
 

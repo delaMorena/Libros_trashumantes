@@ -1,16 +1,24 @@
-// const baseUrl = "https://3001-aquamarine-capybara-rmjshrbs.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-beige-dormouse-jkq2mnc1.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
+	const token = localStorage.getItem("token");
 	return {
-		store: {},
+		store: {
+			user: [],
+			token: token,
+			error: null
+		},
 		actions: {
-			createUser(input) {
-				const endpoint = "https://3001-rose-urial-vp1jy9ao.ws-eu03.gitpod.io/api/users";
+			createUser(input, callback) {
+				const endpoint = `${baseUrl}/users`;
 
 				const method = "POST";
 				const config = {
 					method: method,
-					headers: { "Content-Type": "application/json" },
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					},
 					body: JSON.stringify({
 						first_name: input.firstName,
 						last_name: input.lastName,
@@ -23,13 +31,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				fetch(endpoint, config)
 					.then(response => {
-						console.log(response);
 						return response.json();
 					})
 					.then(json => {
-						console.log(json);
+						setStore({ token: json.token });
+
+						localStorage.setItem("token", json.token);
+						callback();
+					})
+					.catch(error => {
+						console.log(error);
 					});
-				// console.log("input: ", input);
+			},
+			logIn(input, callback) {
+				const endpoint = `${baseUrl}/login`;
+				const config = {
+					method: "POST",
+					body: JSON.stringify({
+						email: input.email,
+						password: input.password
+					}),
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					}
+				};
+				fetch(endpoint, config)
+					.then(response => {
+						if (response.status == 403) {
+							setStore({ error: response });
+							return response.json();
+						}
+						setStore({ error: null });
+						return response.json();
+					})
+					.then(json => {
+						setStore({ token: json.token });
+						localStorage.setItem("token", json.token);
+						callback();
+					})
+					.catch(error => {
+						setStore(error);
+					});
+			},
+			logOut() {
+				localStorage.removeItem("token");
+				setStore({ token: null });
 			}
 		}
 	};
