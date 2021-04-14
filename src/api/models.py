@@ -37,7 +37,8 @@ class Users(db.Model):
             "email": self.email,
             "age": self.age,
             "dni": self.dni,
-            "village": self.villages.id
+            # "village": self.villages.id
+            "village": self.villages.serialize()
         }
     
 

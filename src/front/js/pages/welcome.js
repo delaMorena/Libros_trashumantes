@@ -8,7 +8,7 @@ export const Welcome = () => {
 		actions.getUser();
 		console.log("user: ", store.user);
 
-		actions.getVillage();
+		actions.getVillage(1);
 		console.log("store.village estoy??: ", store.village);
 	}, []);
 
@@ -25,8 +25,8 @@ export const Welcome = () => {
 						/>
 					</div>
 					<div className="col-6">
-						<h4> Tu enlace es:</h4>
-						<strong>{store.village.volunteer}</strong>
+						{/* <h4> Tu enlace es:</h4>
+						<strong>{store.village}</strong>
 						<br />
 						<h4> Tu teléfono de contacto:</h4>
 						<strong>{store.village.phone}</strong>
@@ -36,7 +36,7 @@ export const Welcome = () => {
 						<strong>
 							ALBERGUE DE {store.village.village_name}, este es mi id: {store.user.village} LOS PRIMEROS
 							JUEVES DE CADA MES
-						</strong>
+						</strong> */}
 						<br />
 					</div>
 				</div>
