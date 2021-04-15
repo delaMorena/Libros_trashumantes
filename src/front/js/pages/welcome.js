@@ -3,14 +3,37 @@ import { Context } from "../store/appContext";
 
 export const Welcome = () => {
 	const { store, actions } = useContext(Context);
+	let userVillage = store.user;
+	console.log(userVillage);
 
 	useEffect(() => {
 		actions.getUser();
-		console.log("user: ", store.user);
-
-		actions.getVillage(1);
-		console.log("store.village estoy??: ", store.village);
+		console.log("user despues de getUser: ", store.user);
 	}, []);
+
+	const villageData = obj => {
+		for (const [key, value] of Object.entries(obj)) {
+			// console.log("value: ", value, " key: ", key);
+			if (key == "village") {
+				let datosVilla = [];
+				datosVilla = value;
+				// console.log("entro aquí", datosVilla);
+				return datosVilla;
+			}
+		}
+	};
+	let villaData = villageData(userVillage);
+	console.log("la variable que devuelve la funcion: ", villaData);
+
+	// {Object.keys(data.tasks).map((date) => {
+	//     const dayTasks = tasks[date];
+	//     return Object.keys(dayTasks).map((key) => {
+	//         const task = dayTasks[key];
+	//         return (
+	//           <li>{task.name}</li>
+	//         )
+	//     })
+	// })}
 
 	return (
 		<div>
@@ -25,18 +48,26 @@ export const Welcome = () => {
 						/>
 					</div>
 					<div className="col-6">
+						{/* Otro intento fallido: */}
+						{/* <ul>
+							{Object.keys(villaData).map(item => {
+								const clavesVillas = villa[item];
+								return Object.keys(clavesVillas).map(key => {
+									const villa = clavesVillas[key];
+									return <li key={key}>{villa.name}</li>;
+								});
+							})}
+						</ul> */}
+
 						{/* <h4> Tu enlace es:</h4>
 						<strong>{store.village}</strong>
 						<br />
 						<h4> Tu teléfono de contacto:</h4>
 						<strong>{store.village.phone}</strong>
 						<br />
-						<h4>Hace entregas y recogidas en:</h4>
+						<h4>Hace entregas y recogidas en:</h4> */}
 
-						<strong>
-							ALBERGUE DE {store.village.village_name}, este es mi id: {store.user.village} LOS PRIMEROS
-							JUEVES DE CADA MES
-						</strong> */}
+						{/* <strong>ALBERGUE DE {villageData()}, este es mi id:</strong> */}
 						<br />
 					</div>
 				</div>

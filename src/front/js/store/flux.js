@@ -1,4 +1,5 @@
 const baseUrl = "https://3001-coral-urial-ax7f04lq.ws-eu03.gitpod.io/api";
+// const baseUrl = process.env(BACKEND_URL);
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -80,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null });
 			},
 
-			async getUser() {
+			async getUser(callback) {
 				const store = getStore();
 				const endpoint = `${baseUrl}/test`;
 				const method = "GET";
@@ -98,7 +99,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.json())
 					.then(data => {
 						setStore({ user: data });
-						console.log("contacto", store.user);
+						// console.log("store.user: ", store.user);
 					});
 			},
 			async getVillage(id) {
