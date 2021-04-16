@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 export const Welcome = () => {
 	const { store, actions } = useContext(Context);
@@ -28,7 +29,11 @@ export const Welcome = () => {
 			console.log("he entrado, pintarpueblo entra al else", obj.volunteer);
 			return (
 				<div>
-					<h4> Tu enlace es:</h4>
+					<h4>
+						{" "}
+						Tu enlace es:
+						{store.user.village.volunteer}{" "}
+					</h4>
 					<strong>{obj.volunteer}</strong>
 					<br />
 					<h4> Su teléfono de contacto:</h4>
@@ -58,7 +63,9 @@ export const Welcome = () => {
 					<div className="col-6">{finalVilla}</div>
 				</div>
 			</div>
-			<h3>Echa un vistazo a nuestras estanterías</h3>
+			<Link to="/shelves">
+				<h4>Echa un vistazo a nuestras estanterías</h4>
+			</Link>
 		</div>
 	);
 };

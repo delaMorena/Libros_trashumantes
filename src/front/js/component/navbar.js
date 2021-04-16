@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
 	return (
 		<nav className="navbar navbar-light bg-light mb-3">
 			<Link to="/">
@@ -13,6 +15,14 @@ export const Navbar = () => {
 				</Link>
 				<Link to="/login">
 					<button className="btn btn-primary mx-2">Inicia sesión</button>
+				</Link>
+				<Link
+					className="btn btn-succes mx-2"
+					to="/bye"
+					type="button"
+					onClick={() => actions.logOut()}
+					style={{ color: "grey" }}>
+					Cerrar sesión
 				</Link>
 				<Link to="/welcome">
 					<button className="btn btn-primary mx-2">Tu enlace</button>
