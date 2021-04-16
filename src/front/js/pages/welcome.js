@@ -9,6 +9,7 @@ export const Welcome = () => {
 
 	useEffect(() => {
 		actions.getUser();
+		// await actions.getUser(); igual así para que traiga la información
 		console.log("user despues de getUser: ", store.user);
 	}, []);
 
