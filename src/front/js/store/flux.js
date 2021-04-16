@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-coral-urial-ax7f04lq.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-amber-cattle-001krqxu.ws-eu03.gitpod.io/api";
 // const baseUrl = process.env(BACKEND_URL);
 
 const getState = ({ getStore, getActions, setStore }) => {

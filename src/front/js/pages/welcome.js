@@ -13,27 +13,35 @@ export const Welcome = () => {
 
 	const villageData = obj => {
 		for (const [key, value] of Object.entries(obj)) {
-			// console.log("value: ", value, " key: ", key);
 			if (key == "village") {
-				let datosVilla = [];
-				datosVilla = value;
-				// console.log("entro aquí", datosVilla);
-				return datosVilla;
+				let findVillainObject;
+				findVillainObject = value;
+				return findVillainObject;
 			}
 		}
 	};
 	let villaData = villageData(userVillage);
-	console.log("la variable que devuelve la funcion: ", villaData);
-
-	// {Object.keys(data.tasks).map((date) => {
-	//     const dayTasks = tasks[date];
-	//     return Object.keys(dayTasks).map((key) => {
-	//         const task = dayTasks[key];
-	//         return (
-	//           <li>{task.name}</li>
-	//         )
-	//     })
-	// })}
+	const pintarPueblo = obj => {
+		if (obj == undefined || obj == null) {
+			return <h2> Un momentito</h2>;
+		} else {
+			console.log("he entrado, pintarpueblo entra al else", obj.volunteer);
+			return (
+				<div>
+					<h4> Tu enlace es:</h4>
+					<strong>{obj.volunteer}</strong>
+					<br />
+					<h4> Su teléfono de contacto:</h4>
+					<strong>{obj.phone}</strong>
+					<br />
+					<h4>Hace entregas y recogidas en:</h4>
+					<strong>ALBERGUE DE {obj.village_name}</strong>
+					<br />
+				</div>
+			);
+		}
+	};
+	let finalVilla = pintarPueblo(villaData);
 
 	return (
 		<div>
@@ -47,29 +55,7 @@ export const Welcome = () => {
 							width="300"
 						/>
 					</div>
-					<div className="col-6">
-						{/* Otro intento fallido: */}
-						{/* <ul>
-							{Object.keys(villaData).map(item => {
-								const clavesVillas = villa[item];
-								return Object.keys(clavesVillas).map(key => {
-									const villa = clavesVillas[key];
-									return <li key={key}>{villa.name}</li>;
-								});
-							})}
-						</ul> */}
-
-						{/* <h4> Tu enlace es:</h4>
-						<strong>{store.village}</strong>
-						<br />
-						<h4> Tu teléfono de contacto:</h4>
-						<strong>{store.village.phone}</strong>
-						<br />
-						<h4>Hace entregas y recogidas en:</h4> */}
-
-						{/* <strong>ALBERGUE DE {villageData()}, este es mi id:</strong> */}
-						<br />
-					</div>
+					<div className="col-6">{finalVilla}</div>
 				</div>
 			</div>
 			<h3>Echa un vistazo a nuestras estanterías</h3>
