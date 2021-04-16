@@ -13,41 +13,39 @@ export const Welcome = () => {
 		console.log("user despues de getUser: ", store.user);
 	}, []);
 
-	const villageData = obj => {
-		for (const [key, value] of Object.entries(obj)) {
-			if (key == "village") {
-				let findVillainObject;
-				findVillainObject = value;
-				return findVillainObject;
-			}
-		}
-	};
-	let villaData = villageData(userVillage);
-	const pintarPueblo = obj => {
-		if (obj == undefined || obj == null) {
-			return <h2> Un momentito</h2>;
-		} else {
-			console.log("he entrado, pintarpueblo entra al else", obj.volunteer);
-			return (
-				<div>
-					<h4>
-						{" "}
-						Tu enlace es:
-						{store.user.village.volunteer}{" "}
-					</h4>
-					<strong>{obj.volunteer}</strong>
-					<br />
-					<h4> Su teléfono de contacto:</h4>
-					<strong>{obj.phone}</strong>
-					<br />
-					<h4>Hace entregas y recogidas en:</h4>
-					<strong>ALBERGUE DE {obj.village_name}</strong>
-					<br />
-				</div>
-			);
-		}
-	};
-	let finalVilla = pintarPueblo(villaData);
+	// const villageData = obj => {
+	// 	for (const [key, findVillainObject] of Object.entries(obj)) {
+	// 		if (key == "village") {
+	// 			return findVillainObject;
+	// 		}
+	// 	}
+	// };
+	// let villaData = villageData(userVillage);
+	// const pintarPueblo = obj => {
+	// 	if (obj == undefined || obj == null) {
+	// 		return <h2> Un momentito</h2>;
+	// 	} else {
+	// 		console.log("he entrado, pintarpueblo entra al else", obj.volunteer);
+	// 		return (
+	// 			<div>
+	// 				<h4>
+	// 					{" "}
+	// 					Tu enlace es:
+	// 					{store.user.village.volunteer}{" "}
+	// 				</h4>
+	// 				<strong>{obj.volunteer}</strong>
+	// 				<br />
+	// 				<h4> Su teléfono de contacto:</h4>
+	// 				<strong>{obj.phone}</strong>
+	// 				<br />
+	// 				<h4>Hace entregas y recogidas en:</h4>
+	// 				<strong>ALBERGUE DE {obj.village_name}</strong>
+	// 				<br />
+	// 			</div>
+	// 		);
+	// 	}
+	// };
+	// let finalVilla = pintarPueblo(villaData);
 
 	return (
 		<div>
@@ -61,7 +59,23 @@ export const Welcome = () => {
 							width="300"
 						/>
 					</div>
-					<div className="col-6">{finalVilla}</div>
+					<div className="col-6">
+						{Object.keys(store.user).length == 0 ? (
+							""
+						) : (
+							<div>
+								<h4> Tu enlace es: </h4>
+								<strong>{store.user.village.volunteer}</strong>
+								<br />
+								<h4> Su teléfono de contacto:</h4>
+								<strong>{store.user.village.phone}</strong>
+								<br />
+								<h4>Hace entregas y recogidas en:</h4>
+								<strong>ALBERGUE DE {store.user.village.village_name}</strong>
+								<br />
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 			<Link to="/shelves">
@@ -70,3 +84,13 @@ export const Welcome = () => {
 		</div>
 	);
 };
+// {Object.keys(store.user).length == 0
+// 							? ""
+// 							: Object.keys(store.user.village).map((value, index) => {
+// 									return (
+// 										<div key={index}>
+// 											<h2>{value + ": "}</h2>
+// 											<h4> {store.user[value]}</h4>
+// 										</div>
+// 									);
+// 							  })}

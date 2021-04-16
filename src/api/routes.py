@@ -76,6 +76,7 @@ def authorized_user():
     payload = jwt.decode(token, secret, algorithms= [algo])
     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
+
     return user #probado en insomnia
 
 # get one user

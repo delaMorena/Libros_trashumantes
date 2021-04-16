@@ -1,11 +1,11 @@
-const baseUrl = "https://3001-amber-cattle-001krqxu.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-bronze-cat-8oc2p1nk.ws-eu03.gitpod.io/api";
 // const baseUrl = process.env(BACKEND_URL);
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
 	return {
 		store: {
-			user: [],
+			user: {},
 			token: token,
 			error: null,
 			village: {}
@@ -81,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null });
 			},
 
-			async getUser(callback) {
+			async getUser() {
 				const store = getStore();
 				const endpoint = `${baseUrl}/test`;
 				const method = "GET";
