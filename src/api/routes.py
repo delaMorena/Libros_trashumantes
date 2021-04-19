@@ -170,21 +170,31 @@ def handle_get_one_user(id):
     
     return jsonify(user.serialize()), 201 #probado en insomnia (Tibi)
 
-@api.route("/users/<int:id>", methods=["PUT"])
-def handle_update_one_user(id):
-    user = Users.query.get(id) 
+@api.route("/users", methods=["PUT"])
+def handle_update_user():
 
-    if not user: 
+    user = authorized_user()
+
+    if not user or user.deleted_at is not None:
         return "User not found", 404
-    
+
     payload = request.get_json()
 
-    user.village = payload["village"]
-    user.age = payload["age"]
-    
+    if "first_name" in payload:
+        user.first_name = payload["first_name"]
+
+    if "last_name" in payload:
+        user.last_name = payload["last_name"]
+
+    if "password" in payload:
+        user.password = payload["password"]
+
+    if "age" in payload:
+        user.age = payload["age"]
+
     db.session.add(user)
     db.session.commit()
-    
+
     return jsonify(user.serialize()), 200
 
 

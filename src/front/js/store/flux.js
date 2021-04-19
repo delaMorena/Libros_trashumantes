@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-beige-dormouse-jkq2mnc1.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-jade-boa-krkzfhl5.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -77,6 +77,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut() {
 				localStorage.removeItem("token");
 				setStore({ token: null });
+			},
+			updateContact(id, input) {
+				const store = getStore();
+				const endpoint = `${baseUrl}/users`;
+				const config = {
+					method: "PUT",
+					body: JSON.stringify({
+						first_name: input.firstName,
+						last_name: input.lastName,
+						email: input.email,
+						password: input.password,
+						dni: input.dni,
+						age: input.age,
+						village: input.village
+					}),
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${store.token}`
+					}
+				};
+
+				fetch(endpoint, config)
+					.then(response => {
+						return response.json();
+					})
+					.then(json => {
+						console.log(json.user);
+					});
 			}
 		}
 	};
