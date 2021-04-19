@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import { NoToken } from "../component/no-token";
 
 export const Welcome = () => {
 	const { store, actions } = useContext(Context);
@@ -46,43 +47,48 @@ export const Welcome = () => {
 	// 	}
 	// };
 	// let finalVilla = pintarPueblo(villaData);
+	if (store.token == null) {
+		console.log(store.token);
 
-	return (
-		<div>
-			<h1>¡Bienvenida {store.user.first_name}!</h1>
-			<div className="container">
-				<div className="row">
-					<div className="col-6">
-						<img
-							src="https://blush.design/api/download?shareUri=SgObsXSwnsOkHMhP&c=Skin_0%7Eedb98a&w=800&h=800&fm=png"
-							alt="welcome-pic"
-							width="300"
-						/>
-					</div>
-					<div className="col-6">
-						{Object.keys(store.user).length == 0 ? (
-							""
-						) : (
-							<div>
-								<h4> Tu enlace es: </h4>
-								<strong>{store.user.village.volunteer}</strong>
-								<br />
-								<h4> Su teléfono de contacto:</h4>
-								<strong>{store.user.village.phone}</strong>
-								<br />
-								<h4>Hace entregas y recogidas en:</h4>
-								<strong>ALBERGUE DE {store.user.village.village_name}</strong>
-								<br />
-							</div>
-						)}
+		return <NoToken />;
+	} else {
+		return (
+			<div>
+				<h1>¡Bienvenida {store.user.first_name}!</h1>
+				<div className="container">
+					<div className="row">
+						<div className="col-6">
+							<img
+								src="https://blush.design/api/download?shareUri=SgObsXSwnsOkHMhP&c=Skin_0%7Eedb98a&w=800&h=800&fm=png"
+								alt="welcome-pic"
+								width="300"
+							/>
+						</div>
+						<div className="col-6">
+							{Object.keys(store.user).length == 0 ? (
+								""
+							) : (
+								<div>
+									<h4> Tu enlace es: </h4>
+									<strong>{store.user.village.volunteer}</strong>
+									<br />
+									<h4> Su teléfono de contacto:</h4>
+									<strong>{store.user.village.phone}</strong>
+									<br />
+									<h4>Hace entregas y recogidas en:</h4>
+									<strong>ALBERGUE DE {store.user.village.village_name}</strong>
+									<br />
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
+				<Link to="/shelves">
+					<h4>Echa un vistazo a nuestras estanterías</h4>
+				</Link>
 			</div>
-			<Link to="/shelves">
-				<h4>Echa un vistazo a nuestras estanterías</h4>
-			</Link>
-		</div>
-	);
+		);
+	}
 };
 // {Object.keys(store.user).length == 0
 // 							? ""

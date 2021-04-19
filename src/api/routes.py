@@ -209,32 +209,17 @@ def handle_delete_user(id):
 
 ######################## VILLAGES
 # Obtener una villa de un usuario registrado
-<<<<<<< HEAD
-@api.route("/villages/<int:id>", methods=["GET"])
-def handle_get_post(id):
-=======
 @api.route("/users/villages", methods=["GET"])
 def handle_get_village_from_user():
->>>>>>> e7d471d2ecb351b9989053ae622cad452d715577
 
     user = authorized_user()
 
     if not user:
-<<<<<<< HEAD
-        return "User not authorized", 403
-
-    village = Villages.query.filter_by(id=id, deleted_at=None).first()
-
-    if not village:
-        return "Village not found", 404
-        
-=======
         return "User not found", 404
 
     user_db = Users.query.filter_by(id=user.id, deleted_at=None)
     village = Villages.query.filter_by(id=user_db.village_id,deleted_at=None).first()
 
->>>>>>> e7d471d2ecb351b9989053ae622cad452d715577
     return jsonify(village.serialize()), 200
 
 
