@@ -1,5 +1,4 @@
-const baseUrl = "https://3001-bronze-cat-8oc2p1nk.ws-eu03.gitpod.io/api";
-// const baseUrl = process.env(BACKEND_URL);
+const baseUrl = "https://3001-brown-tapir-sbykfvg5.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");

@@ -16,7 +16,7 @@ class Users(db.Model):
     password = db.Column(db.String(128), nullable=False)
     age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
-    village =  db.Column(db.Integer(), ForeignKey('villages.id'))
+    village_id =  db.Column(db.Integer(), ForeignKey('villages.id'))
   
     villages = db.relationship('Villages')
     reviews = db.relationship('Reviews')
