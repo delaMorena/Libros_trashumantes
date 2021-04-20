@@ -1,0 +1,28 @@
+.register{
+   background-color:  #275A4D;
+   color: whitesmoke;
+
+}
+.register-izq-inside{
+    background-color: #51897C;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-left: 2rem;
+}
+.register-der{
+    background-image: url("../img/CoolKidsAloneTime.png");
+    background-position: center;    
+    background-size: cover;
+}
+
+@media (max-width: 600px) {
+  .register-der{
+    display: none;
+  }
+  .register-izq{
+      align-items: center;
+  }
+  .register-izq-inside{
+      margin-left: 0;
+  }
+}

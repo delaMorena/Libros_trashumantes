@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import "../../styles/forms.scss";
 
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
@@ -14,6 +16,8 @@ export const SignUp = () => {
 	const [password, setPassword] = useState("123");
 	const [dni, setDni] = useState("50348956");
 	const [village, setVillage] = useState(1);
+
+	const params = useParams();
 
 	const HandleClickLogin = () => {
 		const payload = {
