@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-lime-kiwi-7zj7c7s3.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-red-urial-dlpemx6p.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -124,8 +124,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("una villa: ", store.village);
 					})
 					.catch(error => alert("error: ", error));
-            },
-            updateUser(input, callback) {
+			},
+			updateUser(input, callback) {
 				const store = getStore();
 				const endpoint = `${baseUrl}/users`;
 				const config = {

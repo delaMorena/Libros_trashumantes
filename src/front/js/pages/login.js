@@ -18,9 +18,20 @@ export const LogIn = () => {
 		actions.logIn(input, () => {
 			if (store.error == null) {
 				history.push("/");
+			} else {
+				history.push("/welcome");
 			}
 		});
 	}
+	// const HandleClick = async event => {
+	// 	const payload = {
+	// 		email: email,
+	// 		password: password
+	// 	};
+	// 	await actions.userLogin(payload); // HASTA QUE NO SE EJECUTA ESTA FUNCION NO PASA A LA SIGUIENTE LINEA DE CODIGO
+
+	// 	history.push("/inicio");
+	// };
 
 	return (
 		<div>

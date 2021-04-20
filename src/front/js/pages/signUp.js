@@ -9,12 +9,12 @@ export const SignUp = () => {
 
 	const history = useHistory();
 
-	const [firstName, setFirstName] = useState("mozica");
-	const [lastName, setLastName] = useState("moza");
+	const [firstName, setFirstName] = useState("Ángela");
+	const [lastName, setLastName] = useState("Millán");
 	const [age, setAge] = useState("34");
-	const [email, setEmail] = useState("moz@ano");
+	const [email, setEmail] = useState("angela@millan.es");
 	const [password, setPassword] = useState("123");
-	const [dni, setDni] = useState("1234");
+	const [dni, setDni] = useState("56897834");
 	const [village, setVillage] = useState(1);
 
 	const params = useParams();
@@ -35,7 +35,7 @@ export const SignUp = () => {
 			});
 		} else {
 			actions.createUser(payload, () => {
-				history.push("/");
+				history.push("/welcome");
 			});
 		}
 	};
