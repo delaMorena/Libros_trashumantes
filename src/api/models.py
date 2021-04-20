@@ -28,6 +28,11 @@ class Users(db.Model):
 
     def __str__(self):
         return '{} <{}>' .format(self.email, self.dni)
+        
+        # village_data = []
+        # for data in self.village:
+        #     village_data.append(data.serialize())
+
     
     def serialize(self):
         return {

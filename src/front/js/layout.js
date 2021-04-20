@@ -6,6 +6,8 @@ import { Home } from "./pages/home";
 import { SignUp } from "./pages/signUp";
 import { LogIn } from "./pages/login";
 import { Welcome } from "./pages/welcome";
+import { Shelves } from "./pages/shelves";
+import { Bye } from "./pages/bye";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -34,6 +36,12 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/welcome">
 							<Welcome />
+						</Route>
+						<Route exact path="/shelves">
+							<Shelves />
+						</Route>
+						<Route exact path="/bye">
+							<Bye />
 						</Route>
 						<Route>
 							<h1>Not found!</h1>

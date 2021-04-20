@@ -17,7 +17,7 @@ export const LogIn = () => {
 		};
 		actions.logIn(input, () => {
 			if (store.error == null) {
-				history.push("/");
+				history.push("/welcome");
 			}
 		});
 	}

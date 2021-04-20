@@ -1,12 +1,13 @@
-const baseUrl = "https://3001-brown-tapir-sbykfvg5.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-lime-kiwi-7zj7c7s3.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
 	return {
 		store: {
-			user: [],
+			user: {},
 			token: token,
-			error: null
+			error: null,
+			village: {}
 		},
 		actions: {
 			createUser(input, callback) {
@@ -26,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: input.password,
 						dni: input.dni,
 						age: input.age,
-						village: input.village
+						village_id: input.village
 					})
 				};
 				fetch(endpoint, config)
@@ -97,8 +98,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.json())
 					.then(data => {
 						setStore({ user: data });
-						console.log("contacto", store.user);
+						// console.log("store.user: ", store.user);
 					});
+			},
+			async getVillage(id) {
+				const store = getStore();
+				const endpoint = `${baseUrl}/villages/${id}`;
+				const method = "GET";
+				const headers = { "Content-Type": "application/json" };
+
+				if (store.token) {
+					headers["Authorization"] = `Bearer ${store.token}`;
+				}
+
+				const config = {
+					method: method,
+					headers: headers
+				};
+				fetch(endpoint, config)
+					.then(response => response.json())
+					.then(data => {
+						setStore({
+							village: data
+						});
+						console.log("una villa: ", store.village);
+					})
+					.catch(error => alert("error: ", error));
 			}
 		}
 	};

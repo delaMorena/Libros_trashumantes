@@ -76,6 +76,7 @@ def authorized_user():
     payload = jwt.decode(token, secret, algorithms= [algo])
     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
+
     return user #probado en insomnia
 
 # get one user
@@ -91,16 +92,18 @@ def test():
 def handle_create_user():
     payload = request.get_json()
 
-    # required = ["first_name", "last_name", "username", "email", "password", "age", "dni", "village"]
+    # required = ["first_name", "last_name",
+    # #  "username", 
+    #  "email", "password", "age", "dni", "village_id"]
     # types = {
     #     "first_name": str,
     #     "last_name": str,
-    #     "username": str,
+    #     # "username": str,
     #     "email": str,
     #     "password": str,
     #     "age": int,
     #     "dni": str,
-    #     "village": str
+    #     "village_id": int
     # }
     
     # payload = request.get_json()
