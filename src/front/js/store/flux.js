@@ -124,6 +124,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("una villa: ", store.village);
 					})
 					.catch(error => alert("error: ", error));
+            },
+            updateUser(input, callback) {
+				const store = getStore();
+				const endpoint = `${baseUrl}/users`;
+				const config = {
+					method: "PUT",
+					body: JSON.stringify({
+						first_name: input.firstName,
+						last_name: input.lastName,
+						email: input.email,
+						password: input.password,
+						dni: input.dni,
+						age: input.age,
+						village: input.village
+					}),
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${store.token}`
+					}
+				};
+
+				fetch(endpoint, config)
+					.then(response => {
+						return response.json();
+					})
+					.then(json => {
+						setStore({ user: json.user });
+					});
 			}
 		}
 	};
