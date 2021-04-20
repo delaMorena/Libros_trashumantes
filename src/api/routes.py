@@ -10,7 +10,7 @@ import jwt
 import datetime, json
 
 from flask import Flask, request, jsonify, url_for, Blueprint, abort
-from api.models import db, Users, Packages, Reservations, Reviews 
+from api.models import db, Users, Packages, Reservations, Reviews, Villages
 from api.utils import generate_sitemap, APIException
 
 
@@ -76,23 +76,34 @@ def authorized_user():
     payload = jwt.decode(token, secret, algorithms= [algo])
     user = Users.query.filter_by(email=payload["sub"], deleted_at=None).first()
 
+
     return user #probado en insomnia
+
+# get one user
+@api.route("/test", methods=['GET'])
+def test():
+    user = authorized_user()
+
+    return jsonify(user.serialize()), 200
+
     
-###################################    USERS    #################################
+###################################    USERS    
 @api.route("/users", methods=["POST"])
 def handle_create_user():
     payload = request.get_json()
 
-    # required = ["first_name", "last_name", "username", "email", "password", "age", "dni", "village"]
+    # required = ["first_name", "last_name",
+    # #  "username", 
+    #  "email", "password", "age", "dni", "village_id"]
     # types = {
     #     "first_name": str,
     #     "last_name": str,
-    #     "username": str,
+    #     # "username": str,
     #     "email": str,
     #     "password": str,
     #     "age": int,
     #     "dni": str,
-    #     "village": str
+    #     "village_id": int
     # }
     
     # payload = request.get_json()
@@ -122,6 +133,9 @@ def handle_create_user():
     token = jwt.encode(email, secret, algorithm=algo)
 
     return jsonify({"token":token}), 201 #probado en insomnia y en el front
+
+
+
 
 @api.route("/login", methods=["POST"])# no es un GET porque el metodo get no deja pasar nada en el body
 def login():
@@ -160,15 +174,6 @@ def handle_get_all_users():
 
     return jsonify(users), 201 #probado en insomnia (Tibi), no funciona si tiene en el serialize de Users village.. 
     
-@api.route("/users/<int:id>", methods=["GET"])
-def handle_get_one_user(id):
-    user = authorized_user() 
-    user = Users.query.get(id)
-
-    if not user: 
-        return "User not found", 404
-    
-    return jsonify(user.serialize()), 201 #probado en insomnia (Tibi)
 
 @api.route("/users", methods=["PUT"])
 def handle_update_user():
@@ -211,6 +216,24 @@ def handle_delete_user(id):
     db.session.commit()
 
     return jsonify(user.serialize()), 200
+
+
+
+######################## VILLAGES
+# Obtener una villa de un usuario registrado
+@api.route("/users/villages", methods=["GET"])
+def handle_get_village_from_user():
+
+    user = authorized_user()
+
+    if not user:
+        return "User not found", 404
+
+    user_db = Users.query.filter_by(id=user.id, deleted_at=None)
+    village = Villages.query.filter_by(id=user_db.village_id,deleted_at=None).first()
+
+    return jsonify(village.serialize()), 200
+
 
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])

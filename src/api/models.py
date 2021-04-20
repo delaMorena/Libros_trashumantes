@@ -16,7 +16,10 @@ class Users(db.Model):
     password = db.Column(db.String(128), nullable=False)
     age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
-    village =  db.Column(db.Integer(), ForeignKey('villages.id'))
+    village_id =  db.Column(db.Integer(), ForeignKey('villages.id'))
+    percent_reviews = db.Column(db.Float(), nullable=False, default=1)
+    total_reviews = db.Column(db.Float(), nullable=True, default=0) #este seria la unica columna que necesito
+    sum_reviews = db.Column(db.Integer, nullable=False, default=0)
   
     villages = db.relationship('Villages')
     reviews = db.relationship('Reviews')
@@ -25,6 +28,11 @@ class Users(db.Model):
 
     def __str__(self):
         return '{} <{}>' .format(self.email, self.dni)
+        
+        # village_data = []
+        # for data in self.village:
+        #     village_data.append(data.serialize())
+
     
     def serialize(self):
         return {
@@ -37,7 +45,9 @@ class Users(db.Model):
             "email": self.email,
             "age": self.age,
             "dni": self.dni,
-            # "village": self.villages.village_name
+            "village": self.villages.serialize(),
+            # "village": list(map(lambda x: x.serialize(), self.villages)),
+            "percent_reviews": self.percent_reviews,
         }
     
 
