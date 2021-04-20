@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<< HEAD:migrations/versions/0540237ef7b5_.py
-Revision ID: 0540237ef7b5
+Revision ID: 91a7ad63e6ee
 Revises: 
-Create Date: 2021-04-16 19:38:36.664106
-=======
-Revision ID: fe8de7f7cbb6
-Revises: 
-Create Date: 2021-04-13 22:18:46.494870
->>>>>>> e7d471d2ecb351b9989053ae622cad452d715577:migrations/versions/fe8de7f7cbb6_.py
+Create Date: 2021-04-20 12:23:40.921287
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<< HEAD:migrations/versions/0540237ef7b5_.py
-revision = '0540237ef7b5'
-=======
-revision = 'fe8de7f7cbb6'
->>>>>>> e7d471d2ecb351b9989053ae622cad452d715577:migrations/versions/fe8de7f7cbb6_.py
+revision = '91a7ad63e6ee'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -65,8 +55,11 @@ def upgrade():
     sa.Column('password', sa.String(length=128), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
     sa.Column('dni', sa.String(length=20), nullable=False),
-    sa.Column('village', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['village'], ['villages.id'], ),
+    sa.Column('village_id', sa.Integer(), nullable=True),
+    sa.Column('percent_reviews', sa.Float(), nullable=False),
+    sa.Column('total_reviews', sa.Float(), nullable=True),
+    sa.Column('sum_reviews', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['village_id'], ['villages.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('dni'),
     sa.UniqueConstraint('email')

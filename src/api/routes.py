@@ -92,16 +92,18 @@ def test():
 def handle_create_user():
     payload = request.get_json()
 
-    # required = ["first_name", "last_name", "username", "email", "password", "age", "dni", "village"]
+    # required = ["first_name", "last_name",
+    # #  "username", 
+    #  "email", "password", "age", "dni", "village_id"]
     # types = {
     #     "first_name": str,
     #     "last_name": str,
-    #     "username": str,
+    #     # "username": str,
     #     "email": str,
     #     "password": str,
     #     "age": int,
     #     "dni": str,
-    #     "village": str
+    #     "village_id": int
     # }
     
     # payload = request.get_json()

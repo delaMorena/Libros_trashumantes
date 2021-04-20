@@ -54,7 +54,7 @@ export const Welcome = () => {
 	} else {
 		return (
 			<div>
-				<h1>¡Bienvenida {store.user.first_name}!</h1>
+				<h1>¡Hola {store.user.first_name}!</h1>
 				<div className="container">
 					<div className="row">
 						<div className="col-6">

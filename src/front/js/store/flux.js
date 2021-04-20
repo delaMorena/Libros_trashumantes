@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-brown-tapir-sbykfvg5.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-lime-kiwi-7zj7c7s3.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: input.password,
 						dni: input.dni,
 						age: input.age,
-						village: input.village
+						village_id: input.village
 					})
 				};
 				fetch(endpoint, config)
