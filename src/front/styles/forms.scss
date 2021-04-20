@@ -10,15 +10,11 @@
     margin-left: 2rem;
 }
 .register-der{
-    background-image: url("../img/HandsRandomStuff.png");
+    background-image: url("../img/CoolKidsAloneTime.png");
     background-position: center;    
     background-size: cover;
 }
-.register-der-inside{
-    background-image: url("../img/CoolKidsSitting.png");
-    background-position: center;    
-    background-size: cover;
-}
+
 @media (max-width: 600px) {
   .register-der{
     display: none;

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import "../../styles/forms.scss";
-import { CoolKidsSitting } from "../../img/CoolKidsSitting.png";
 
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
@@ -127,9 +126,7 @@ export const SignUp = () => {
 						</form>
 					</div>
 				</div>
-				<div className="col-lg-6 .d-sm-none .d-md-none register-der">
-					<div className=" register-der-inside" />
-				</div>
+				<div className="col-lg-6 .d-sm-none .d-md-none register-der" />
 			</div>
 		</div>
 	);
