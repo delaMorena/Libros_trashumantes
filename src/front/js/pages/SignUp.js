@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 
@@ -15,6 +16,8 @@ export const SignUp = () => {
 	const [dni, setDni] = useState("1234");
 	const [village, setVillage] = useState(1);
 
+	const params = useParams();
+
 	const HandleClickLogin = () => {
 		const payload = {
 			email: email,
@@ -25,9 +28,15 @@ export const SignUp = () => {
 			age: age,
 			village: village
 		};
-		actions.createUser(payload, () => {
-			history.push("/");
-		});
+		if (store.token) {
+			actions.updateUser(payload, () => {
+				history.push("/");
+			});
+		} else {
+			actions.createUser(payload, () => {
+				history.push("/");
+			});
+		}
 	};
 
 	return (
@@ -106,7 +115,7 @@ export const SignUp = () => {
 				</div> */}
 
 				<button type="button" className="btn btn-primary" onClick={HandleClickLogin}>
-					Registrarse
+					{store.token ? "Actualizar datos" : "Registrarse"}
 				</button>
 			</form>
 		</div>

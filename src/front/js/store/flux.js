@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-jade-boa-krkzfhl5.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-coffee-ape-y25fayn5.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -78,7 +78,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				setStore({ token: null });
 			},
-			updateContact(id, input) {
+			updateUser(input, callback) {
 				const store = getStore();
 				const endpoint = `${baseUrl}/users`;
 				const config = {
@@ -103,7 +103,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return response.json();
 					})
 					.then(json => {
-						console.log(json.user);
+						setStore({ user: json.user });
 					});
 			}
 		}
