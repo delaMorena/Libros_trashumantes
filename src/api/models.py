@@ -17,6 +17,9 @@ class Users(db.Model):
     age= db.Column(db.Integer(), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     village_id =  db.Column(db.Integer(), ForeignKey('villages.id'))
+    percent_reviews = db.Column(db.Float(), nullable=False, default=1)
+    total_reviews = db.Column(db.Float(), nullable=True, default=0) #este seria la unica columna que necesito
+    sum_reviews = db.Column(db.Integer, nullable=False, default=0)
   
     villages = db.relationship('Villages')
     reviews = db.relationship('Reviews')
@@ -37,7 +40,9 @@ class Users(db.Model):
             "email": self.email,
             "age": self.age,
             "dni": self.dni,
-            "village": self.villages.serialize()
+            "village": self.villages.serialize(),
+            # "village": list(map(lambda x: x.serialize(), self.villages)),
+            "percent_reviews": self.percent_reviews,
         }
     
 
