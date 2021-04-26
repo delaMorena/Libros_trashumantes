@@ -238,20 +238,21 @@ def handle_get_village_from_user():
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])
 def handle_get_all_packages():
-    packages = []
+    # packages = []
 
-    for package in Packages.query.all():
-        packages.append(package.serialize())    
-    return jsonify(packages), 201
+    # for package in Packages.query.all():
+    #     packages.append(package.serialize())    
+    # return jsonify(packages), 201
+    return get_all_from_models(Packages)
 
 @api.route("/packages/<int:id>", methods=["GET"])
 def handle_get_one_package(id):
-    package = Packages.query.get(id)
+    # package = Packages.query.get(id)
 
-    if not package: 
-        return "Package not found", 404
-    return jsonify(package.serialize()), 201
-
+    # if not package: 
+    #     return "Package not found", 404
+    # return jsonify(package.serialize()), 201
+    return get_one_or_404(Packages, id)
 
 ################################# VOLUNTEERS #################################
 @api.route("/volunteers", methods=["GET"])

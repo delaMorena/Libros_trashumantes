@@ -89,7 +89,7 @@ class Packages(db.Model):
     books_id = db.Column(db.Integer, ForeignKey('books.id'))
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     # user_id = db.Column(db.Integer, ForeignKey('users.id')) no estoy segura de que haya que ponerlo puesto que ya existe la tabla intermedia "Reservations"
-    suitable_ages =  db.Column(db.String(3))
+    suitable_ages =  db.Column(db.String(220))
     package_tittle = db.Column(db.String(120), unique=True)
     package_description = db.Column(db.Text, nullable=False)
     reserved_status = db.Column(db.Boolean(), nullable=False)
@@ -104,17 +104,17 @@ class Packages(db.Model):
     
 
     def serialize(self):
-        # reviews = []
+        # books = []
 
-        # for review in self.reviews:
-        #     reviews.append(review.serialize())
+        # for book in self.books_id:
+        #     books.append(book.serialize())
 
         return {
             "id": self.id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "books": self.books_id, #si quiero todos los books, lista de books no habrá que hacer lo mismo de reviews? 
+            "books": self.books_id,
             "suitable_ages": self.suitable_ages,
             "package_tittle": self.package_tittle,
             "package_description": self.package_description,
