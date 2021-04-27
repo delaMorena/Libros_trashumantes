@@ -22,7 +22,7 @@ export const PackageCard = props => {
 							</button>
 						</Link>
 					</div>
-					<p>{pack.reserved_status ? <p>Reservado</p> : <p> No Reservado</p>}</p>
+					<div>{pack.reserved_status ? <p>Reservado</p> : <p> No Reservado</p>}</div>
 				</div>
 			</div>
 		</div>

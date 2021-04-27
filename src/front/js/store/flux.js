@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-white-landfowl-951r0481.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-blush-jellyfish-l9nivryk.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -9,7 +9,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			error: null,
 			village: {},
 			packages: [],
-			onePack: {}
+			onePack: {},
+			books: []
 		},
 		actions: {
 			createUser(input, callback) {
@@ -200,8 +201,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.json())
 					.then(data => {
 						// console.log(data)
-						setStore({ onePack: data });
+						setStore({
+							onePack: data,
+							books: data.books
+						});
 						console.log("un pack", store.onePack);
+						console.log("store.onePack.books: ", store.onePack.books, "store.books: ", store.books);
 					});
 			}
 		}

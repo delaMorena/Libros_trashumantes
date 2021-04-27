@@ -90,31 +90,28 @@ def test():
 ###################################    USERS    
 @api.route("/users", methods=["POST"])
 def handle_create_user():
-    payload = request.get_json()
-
-    # required = ["first_name", "last_name",
-    # #  "username", 
-    #  "email", "password", "age", "dni", "village_id"]
-    # types = {
-    #     "first_name": str,
-    #     "last_name": str,
-    #     # "username": str,
-    #     "email": str,
-    #     "password": str,
-    #     "age": int,
-    #     "dni": str,
-    #     "village_id": int
-    # }
-    
     # payload = request.get_json()
 
-    # for key, value in payload.items():
-    #     if key in types and not isinstance(value, types[key]):
-    #         abort(400, f"{key} is not {types[key]}")
+    required = ["first_name", "last_name", "email", "password", "age", "dni"]
+    types = {
+        "first_name": str,
+        "last_name": str,
+        "email": str,
+        "password": str,
+        "age": int,
+        "dni": str,
+        "village_id": int
+    }
+    
+    payload = request.get_json()
 
-    # for field in required:
-    #     if field not in payload or payload[field] is None:
-    #         abort(400, "este es un mensaje en el error 400")
+    for key, value in payload.items():
+        if key in types and not isinstance(value, types[key]):
+            abort(400, f"{key} is not {types[key]}")
+
+    for field in required:
+        if field not in payload or payload[field] is None:
+            abort(400, "este es un mensaje en el error 400")
 
     key = MAC.encode('utf-8')
     msg = payload['password'].encode('utf-8')
@@ -238,12 +235,12 @@ def handle_get_village_from_user():
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])
 def handle_get_all_packages():
-    # packages = []
+    packages = []
 
-    # for package in Packages.query.all():
-    #     packages.append(package.serialize())    
-    # return jsonify(packages), 201
-    return get_all_from_models(Packages)
+    for package in Packages.query.all():
+        packages.append(package.serialize())    
+    return jsonify(packages), 201
+    # return get_all_from_models(Packages)
 
 @api.route("/packages/<int:id>", methods=["GET"])
 def handle_get_one_package(id):

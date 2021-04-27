@@ -86,9 +86,8 @@ class Packages(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime) 
-    books_id = db.Column(db.Integer, ForeignKey('books.id'))
+    # books_id = db.Column(db.Integer, ForeignKey('books.id'))
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    # user_id = db.Column(db.Integer, ForeignKey('users.id')) no estoy segura de que haya que ponerlo puesto que ya existe la tabla intermedia "Reservations"
     suitable_ages =  db.Column(db.String(220))
     package_tittle = db.Column(db.String(120), unique=True)
     package_description = db.Column(db.Text, nullable=False)
@@ -96,29 +95,29 @@ class Packages(db.Model):
       
 
     users = db.relationship("Users")
-    books = db.relationship("Books")
+    books = db.relationship("Books", back_populates="packages")
     reservations = db.relationship("Reservations")
 
     def __str__(self):
-        return '{} <{}>' .format(self.package_tittle, self.package_description)
+        return '{} <{}>' .format(self.package_tittle, self.reserved_status)
     
 
     def serialize(self):
-        # books = []
+        books_list = []
 
-        # for book in self.books_id:
-        #     books.append(book.serialize())
+        for book in self.books:
+            books_list.append(book.serialize())
 
         return {
             "id": self.id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "deleted_at": self.deleted_at,
-            "books": self.books_id,
             "suitable_ages": self.suitable_ages,
             "package_tittle": self.package_tittle,
             "package_description": self.package_description,
-            "reserved_status": self.reserved_status
+            "reserved_status": self.reserved_status,
+            "books": books_list
         }
  
 
@@ -187,17 +186,18 @@ class Books(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
     deleted_at = db.Column(db.DateTime)
+    package_reviewed_id = db.Column(db.Integer, ForeignKey('packages.id'))
     title = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(80), nullable=False)
     suitable_ages = db.Column(db.String(120), nullable=False)
     pages = db.Column(db.String(100))
     book_description = db.Column(db.String(500), nullable=False)
 
-    packages = db.relationship("Packages")
+    packages = db.relationship("Packages", back_populates="books")
     
 
     def __str__(self):
-        return '{} <{}>' .format(self.created_at, self.title, self.author)
+        return '{} <{}>' .format(self.title, self.author)
     
 
     def serialize(self):

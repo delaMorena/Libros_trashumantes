@@ -9,12 +9,12 @@ export const SignUp = () => {
 
 	const history = useHistory();
 
-	const [firstName, setFirstName] = useState("Ángela");
-	const [lastName, setLastName] = useState("Millán");
-	const [age, setAge] = useState("34");
-	const [email, setEmail] = useState("angela@millan.es");
+	const [firstName, setFirstName] = useState("Silvia");
+	const [lastName, setLastName] = useState("Giao");
+	const [age, setAge] = useState("41");
+	const [email, setEmail] = useState("silvia@giao.au");
 	const [password, setPassword] = useState("123");
-	const [dni, setDni] = useState("56897834");
+	const [dni, setDni] = useState("56789321");
 	const [village, setVillage] = useState(1);
 
 	const params = useParams();
@@ -26,9 +26,10 @@ export const SignUp = () => {
 			firstName: firstName,
 			lastName: lastName,
 			dni: dni,
-			age: age,
+			age: parseInt(age),
 			village: village
 		};
+		console.log("age: ", typeof payload.age, "village: ", typeof payload.village);
 		if (store.token) {
 			actions.updateUser(payload, () => {
 				history.push("/");

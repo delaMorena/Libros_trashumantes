@@ -7,17 +7,15 @@ export const PackageInfo = () => {
 	const { store, actions } = useContext(Context);
 	const params = useParams();
 
-	useEffect(
-		() => {
-			actions.getUser();
-			actions.getPack(params.id);
-			//habrá que traerse los libros
-			//POST reservas
-			// get Reviews
-			// post reviews if lo reservaste
-		},
-		[store.token]
-	);
+	useEffect(() => {
+		actions.getUser();
+		actions.getPack(params.id);
+
+		//POST reservas
+		// get Reviews
+		// post reviews if lo reservaste
+	}, []);
+
 	if (store.token == null) {
 		console.log(store.token);
 
@@ -34,10 +32,15 @@ export const PackageInfo = () => {
 						</div>
 					)}
 				</div>
-				<div>libros que contiene</div>
 				<div>reservado o no</div>
 				<div>opiniones</div>
 				<div>publicar una opinión</div>
+				<div>
+					{store.books.map((book, index) => {
+						console.log(book.author, index);
+						<p key={index}>{book.author}</p>;
+					})}
+				</div>
 			</div>
 		);
 	}

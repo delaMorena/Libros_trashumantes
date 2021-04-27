@@ -18,9 +18,9 @@ export const Bye = () => {
 						<p className="mt-4 px-4">
 							Esperamos que hayas encontrado lo que buscabas. Cualquier sugerencia que quieras hacernos,
 							estaremos encantados de escucharla.
-							<p>Ayúdanos a mejorar</p>
-							<p>¡ESPERAMOS VERTE DE NUEVO PRONTO!</p>
 						</p>
+						<p>Ayúdanos a mejorar</p>
+						<p>¡ESPERAMOS VERTE DE NUEVO PRONTO!</p>
 					</div>
 				</div>
 			</div>
