@@ -33,13 +33,12 @@ export const PackageInfo = () => {
 					)}
 				</div>
 				<ul>
-					{store.books == 0 ? "yo tampoco" : "ni yo"
-
-					// store.books.map((book, index) => {
-					// 		console.log("entro:", book.author, index);
-					// 		<li key={index}>{book.author}</li>;
-					//   })
-					}
+					{store.books == 0
+						? "yo tampoco"
+						: store.books.map((book, index) => {
+								console.log("entro:", book.author, index);
+								<li key={index}>{book.author}</li>;
+						  })}
 				</ul>
 				<div>reservado o no</div>
 				<div>opiniones</div>
