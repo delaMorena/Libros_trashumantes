@@ -1,4 +1,4 @@
-const baseUrl = "https://3001-blush-jellyfish-l9nivryk.ws-eu03.gitpod.io/api";
+const baseUrl = "https://3001-emerald-moth-p38jbt74.ws-eu03.gitpod.io/api";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	const token = localStorage.getItem("token");
@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: {},
 			token: token,
 			error: null,
+			villages: [],
 			village: {},
 			packages: [],
 			onePack: {},
@@ -133,6 +134,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({ user: json.user });
 					});
 			},
+			async getVillages() {
+				const store = getStore();
+				const endpoint = `${baseUrl}/villages`;
+				const method = "GET";
+				const headers = { "Content-Type": "application/json" };
+
+				if (store.token) {
+					headers["Authorization"] = `Bearer ${store.token}`;
+				}
+
+				const config = {
+					method: method,
+					headers: headers
+				};
+				await fetch(endpoint, config)
+					.then(response => response.json())
+					.then(data => {
+						setStore({
+							villages: data
+						});
+						console.log("todas villa: ", store.villages);
+					})
+					.catch(error => alert("error: ", error));
+			},
 
 			async getVillage(id) {
 				const store = getStore();
@@ -158,7 +183,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.catch(error => alert("error: ", error));
 			},
-			async getPackages() {
+			getPackages() {
 				const store = getStore();
 				const endpoint = `${baseUrl}/packages`;
 				const method = "GET";
@@ -205,8 +230,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							onePack: data,
 							books: data.books
 						});
-						console.log("un pack", store.onePack);
-						console.log("store.onePack.books: ", store.onePack.books, "store.books: ", store.books);
+						// console.log("un pack", store.onePack);
+						// console.log("store.books: ", store.books);
 					});
 			}
 		}

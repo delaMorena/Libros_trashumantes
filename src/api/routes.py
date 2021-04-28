@@ -232,6 +232,19 @@ def handle_get_village_from_user():
     return jsonify(village.serialize()), 200
 
 
+# Obtener todas las villas disponibles
+@api.route("/villages", methods=["GET"])
+def handle_get_villages():
+    villages = []
+
+    for village in Villages.query.all():
+        villages.append(village.serialize())    
+    return jsonify(villages), 201
+    
+
+    # return get_all_from_models(Villages), 200
+
+
 ################################# PACKAGES  #################################
 @api.route("/packages", methods=["GET"])
 def handle_get_all_packages():
@@ -251,25 +264,22 @@ def handle_get_one_package(id):
     # return jsonify(package.serialize()), 201
     return get_one_or_404(Packages, id)
 
-################################# VOLUNTEERS #################################
-@api.route("/volunteers", methods=["GET"])
-def handle_get_all_volunteers():
-    volunteers = []
+################################# BOOKS #################################
+@api.route("/books/packages/<int:id>", methods=["GET"])
+def handle_get_all_books_from_a_package(id):
+   
+    package = Packages.query.filter_by(id=id, deleted_at=None).first()
+    books = []
 
-    for volunteer in Volunteers.query.all():
-        volunteers.append(volunteer.serialize())
-    return jsonify(volunteers), 201
+    if not package:
+        return "Package not found", 404
 
+    for book in package.books:
+        books.append(book.serialize())
+        
+    # posts.sort(key=lambda x: x.get("updated_at"),reverse=True)
 
-@api.route("/volunteers/<int:id>", methods=["GET"])
-def handle_get_one_volunteer(id):
-    
-    volunteer = Volunteers.query.get(id)
-
-    if not volunteer: 
-        return "Volunteer not found", 404
-    
-    return jsonify(volunteer.serialize()), 201
+    return jsonify(books), 200
 
 ################################# RESERVATIONS #################################
 @api.route("/reservations", methods= ["POST"])

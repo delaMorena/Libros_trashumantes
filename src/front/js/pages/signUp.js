@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
@@ -19,6 +19,29 @@ export const SignUp = () => {
 
 	const params = useParams();
 
+	useEffect(() => {
+		actions.getVillages();
+	}, []);
+
+	const showVillageOption = () => {
+		const villageOption = store.villages.map((village, index) => {
+			return (
+				<option key={index} value={village.id}>
+					{village.village_name}
+				</option>
+			);
+		});
+		if (store.villages.length == 0) {
+			return (
+				<>
+					<option>No se han encontrado pueblos</option>
+				</>
+			);
+		} else {
+			return villageOption;
+		}
+	};
+
 	const HandleClickLogin = () => {
 		const payload = {
 			email: email,
@@ -27,7 +50,7 @@ export const SignUp = () => {
 			lastName: lastName,
 			dni: dni,
 			age: parseInt(age),
-			village: village
+			village: parseInt(village)
 		};
 		console.log("age: ", typeof payload.age, "village: ", typeof payload.village);
 		if (store.token) {
@@ -103,13 +126,19 @@ export const SignUp = () => {
 								/>
 							</div>
 							<div className="">
-								<label className="form-label">Pueblo</label>
+								{/* <label className="form-label">Pueblo</label>
 								<input
 									type="text"
 									className="form-control"
 									value={village}
 									onChange={event => setVillage(event.target.value)}
-								/>
+								/> */}
+								<select
+									className="form-control inicio-input-style"
+									onChange={e => setVillage(e.target.value)}>
+									<option>Elige un pueblo</option>
+									{showVillageOption()}
+								</select>
 							</div>
 							{/* <div className="">
 					<label className="form-label">Repite Contraseña</label>

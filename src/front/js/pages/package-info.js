@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { NoToken } from "../component/no-token";
 import { useParams } from "react-router-dom";
@@ -32,15 +32,18 @@ export const PackageInfo = () => {
 						</div>
 					)}
 				</div>
+				<ul>
+					{store.books == 0 ? "yo tampoco" : "ni yo"
+
+					// store.books.map((book, index) => {
+					// 		console.log("entro:", book.author, index);
+					// 		<li key={index}>{book.author}</li>;
+					//   })
+					}
+				</ul>
 				<div>reservado o no</div>
 				<div>opiniones</div>
 				<div>publicar una opinión</div>
-				<div>
-					{store.books.map((book, index) => {
-						console.log(book.author, index);
-						<p key={index}>{book.author}</p>;
-					})}
-				</div>
 			</div>
 		);
 	}
