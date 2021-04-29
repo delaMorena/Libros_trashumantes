@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import logoprov from "../../img/logoprov.png";
+import logosm from "../../img/logo.png";
+import "../../styles/navbar.scss";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
@@ -14,13 +15,12 @@ export const Navbar = () => {
 	);
 	if (store.token == null) {
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light">
-				<Link className="navbar-brand" to="/">
-					<img src={logoprov} className="d-inline-block align-top style-logo-navbar" alt="logo" width="100" />
-					Libros Trashumantes
+			<nav className="navbar navbar-expand-lg">
+				<Link className="navbar-brand ml-5" to="/">
+					<img src={logosm} className="d-inline-block align-top style-logo-navbar" alt="logo" width="200" />
 				</Link>
 				<button
-					className="navbar-toggler"
+					className="navbar-toggler menu-button-navbar"
 					type="button"
 					data-toggle="collapse"
 					data-target="#navbarNavDropdown"
@@ -33,14 +33,14 @@ export const Navbar = () => {
 					<ul className="navbar-nav style-ul-navbar dropdown-menu-right">
 						<li className="nav-item">
 							<Link to="/login">
-								<button type="button" className="btn login-button-style mx-1">
+								<button type="button" className="button-primary mx-1">
 									Entrar
 								</button>
 							</Link>
 						</li>
 						<li className="nav-item">
 							<Link to="/signup">
-								<button type="button" className="btn register-button-style-navbar mx-1">
+								<button type="button" className="button-secondary mx-1">
 									Registrarme
 								</button>
 							</Link>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import Logo from "../../img/logoprov.png";
+import Logo from "../../img/logo.png";
 
 import { Link } from "react-router-dom";
 

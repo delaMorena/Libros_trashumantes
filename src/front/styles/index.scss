@@ -1,3 +1,73 @@
 /* 
     General Styles
 */
+h1 {
+    font-family: 'Montserrat', sans-serif;
+}
+h2 {
+    font-family: 'New Tegomin', serif;
+}
+h3 {
+     font-family: 'New Tegomin', serif;
+}
+.button-primary {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border: solid #FFFFFF 1px;
+   border-radius: 20px;
+   height: 44px;
+   color: white;
+   width: 108px;
+   font-size: 18px;
+   font-weight: 100;
+   padding: 2px;
+   background-color: transparent;
+   text-decoration: none;
+   display: inline-block;
+   cursor: pointer;
+   text-align: center;
+}
+
+.button-primary:hover {
+   background: #ffffff;
+   border: solid #FFFFFF 0;
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 20px;
+   color: black;
+   text-decoration: none;
+   -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+   -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+   box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+}
+
+.button-secondary {
+//    -webkit-border-radius: 20px;
+//    -moz-border-radius: 20px;
+   border: solid black 0;
+//    border-radius: 20px;
+
+   height: 44px;
+   color: white;
+   width: 120px;
+   font-size: 18px;
+   font-weight: 100;
+   padding: 2px;
+   background-color: transparent;
+   text-decoration: none;
+   display: inline-block;
+   cursor: pointer;
+   text-align: center;
+} 
+.button-secondary:hover {
+   background: transparent;
+   border: solid black 0;
+//    border: solid #FFFFFF 1px ;
+//    -webkit-border-radius: 20px;
+//    -moz-border-radius: 20px;
+//    border-radius: 20px;
+   text-decoration: underline;
+//    -webkit-box-shadow: 1px 1px 108px 0 rgba(105, 103, 103, 0.712);
+//    -moz-box-shadow: 1px 1px 108px 0 rgba(105, 103, 103, 0.712);
+//    box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+}
