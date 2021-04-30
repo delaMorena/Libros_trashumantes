@@ -6,11 +6,19 @@
     width:800px;
     height:700px;
 }
+.bg-books {
+    background-image: url(../img/library.jpeg);
+    background-size: 100% 100%;
+    width:auto;
+    height:800px;
+    margin: auto;
+}
 .pseudomodal {
     text-align: center;
     padding-top: 60px;
-    margin: 120px auto 120px auto;
     background-color: grey;
     width: 100px;
     height: 200px;
+    position: relative;
+    top: 40px; left: 300px;
 }

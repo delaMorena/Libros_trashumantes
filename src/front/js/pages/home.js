@@ -9,7 +9,7 @@ export const Home = () => {
 	return (
 		<div>
 			<div className="row">
-				<div className="col-6 pl-5 pt-5 d-flex align-content-around flex-wrap">
+				<div className="col-6 pl-5 pt-5 d-flex align-content-center flex-wrap">
 					<div>
 						<h1>Eres del Valle de Tena </h1>
 						<h3>Resides en algún pueblo de la Comarca Alto-Gállego</h3>
@@ -21,7 +21,7 @@ export const Home = () => {
 				</div>
 				<div className="bg-mountains col-6" />
 			</div>
-			<div className="mt-5 row justify-content-center">
+			<div className="mt-5 row justify-content-center bg-books">
 				<div className="col-4 pseudomodal">
 					<h2>¿Como funciona libros trashumantes?</h2>
 				</div>
