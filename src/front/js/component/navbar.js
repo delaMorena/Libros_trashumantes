@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import logosm from "../../img/logo.png";
+// import logosm from "../../img/logo.png";
 import "../../styles/navbar.scss";
 
 export const Navbar = () => {
@@ -17,7 +17,9 @@ export const Navbar = () => {
 		return (
 			<nav className="navbar navbar-expand-lg">
 				<Link className="navbar-brand ml-5" to="/">
-					<img src={logosm} className="d-inline-block align-top style-logo-navbar" alt="logo" width="200" />
+					{/* <img src={logosm} className="d-inline-block align-top style-logo-navbar" alt="logo" width="200" />
+                     */}
+					<h1 className="logo">LIBROS TRASHUMANTES</h1>
 				</Link>
 				<button
 					className="navbar-toggler menu-button-navbar"
@@ -58,8 +60,8 @@ export const Navbar = () => {
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light">
 				<Link className="navbar-brand" to="/">
-					<img src={logoprov} className="d-inline-block align-top style-logo-navbar" alt="logo" width="100" />
-					Libros Trashumantes
+					{/* <img src={logoprov} className="d-inline-block align-top style-logo-navbar" alt="logo" width="100" /> */}
+					<h1 className="logo">LIBROS TRASHUMANTES</h1>
 				</Link>
 				<button
 					className="navbar-toggler"

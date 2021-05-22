@@ -12,7 +12,7 @@ export const Home = () => {
 				<div>
 					<h1>Eres del Valle de Tena </h1>
 					<h1>Te gusta leer </h1>
-					<h4>Resides en algún pueblo de la Comarca Alto-Gállego</h4>
+					<h4 className="mt-5">Resides en algún pueblo de la Comarca Alto-Gállego</h4>
 					<h4>Pero todas las bibliotecas están cerradas o sus horarios no te cuadran...</h4>
 				</div>
 				<div />
