@@ -1,8 +1,10 @@
 .bg-mountains {
-    background-image: url(../img/homelandscape.jpeg);
+    background-image: linear-gradient(to top, #ffffff00, #000000c9 70%) ,url(../img/homelandscape.jpeg);
     background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
     color: white;
-    padding:1rem;
+    padding: 2em;
     width:100%;
     height:700px;
 }
