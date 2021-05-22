@@ -1,14 +1,14 @@
 .bg-mountains {
     background-image: url(../img/homelandscape.jpeg);
-    // background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
+    color: white;
     padding:1rem;
-    width:800px;
+    width:100%;
     height:700px;
 }
 .bg-books {
     background-image: url(../img/library.jpeg);
-    background-size: 100% 100%;
+    background-size: cover;
     width:auto;
     height:800px;
     margin: auto;
