@@ -33,20 +33,20 @@ export const Navbar = () => {
 				</button>
 				<div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
 					<ul className="navbar-nav style-ul-navbar dropdown-menu-right">
-						<li className="nav-item">
+						<ol className="nav-item">
 							<Link to="/login">
 								<button type="button" className="button-primary mx-1">
 									Entrar
 								</button>
 							</Link>
-						</li>
-						<li className="nav-item">
+						</ol>
+						<ol className="nav-item">
 							<Link to="/signup">
 								<button type="button" className="button-secondary mx-1">
 									Registrarme
 								</button>
 							</Link>
-						</li>
+						</ol>
 						{/* <li className="nav-item">
 							<Link className="nav-link" to="/about-us">
 								Quienes somos
@@ -75,18 +75,18 @@ export const Navbar = () => {
 				</button>
 				<div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
 					<ul className="navbar-nav style-ul-navbar">
-						<li className="nav-item active">
+						<ol className="nav-item active">
 							<Link className="nav-link" to="/shelves">
 								Estanterías
 								<span className="sr-only">(current)</span>
 							</Link>
-						</li>
-						<li className="nav-item">
+						</ol>
+						<ol className="nav-item">
 							<Link className="nav-link" to="/welcome">
 								Enlace
 							</Link>
-						</li>
-						<li className="nav-item dropdown color-username">
+						</ol>
+						<ol className="nav-item dropdown color-username">
 							<a
 								className="nav-link dropdown-toggle"
 								href="#"
@@ -106,7 +106,7 @@ export const Navbar = () => {
 									Cerrar sesión
 								</Link>
 							</div>
-						</li>
+						</ol>
 					</ul>
 				</div>
 			</nav>

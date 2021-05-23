@@ -69,7 +69,7 @@ export const SignUp = () => {
 			<div className="row ">
 				<div className="col-lg-6 col-12 register-izq">
 					<div className="text-center my-3">
-						<h1>{store.token ? "Modifica tus datos" : "Por favor rellena tus datos"}</h1>
+						<h2>{store.token ? "Modifica tus datos" : "Por favor rellena tus datos"}</h2>
 					</div>
 					<div className="col-lg-12 col-xs-12  register-izq-inside ">
 						<form>
