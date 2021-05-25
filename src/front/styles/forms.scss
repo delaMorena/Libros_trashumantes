@@ -1,19 +1,53 @@
 .register{
-   background-color:  #275A4D;
+   background-image: linear-gradient(#151416, #ffffff00 70%) ;
    color: whitesmoke;
 
 }
+.title-signup {
+    color: whitesmoke;
+    margin-top: 2rem;
+}
 .register-izq-inside{
-    background-color: #51897C;
     padding: 2rem;
     border-radius: 10px;
     margin-left: 2rem;
 }
+input::placeholder {
+    font-family: 'Lato', sans-serif;
+}
+.register-button {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border: solid black 1px;
+   border-radius: 20px;
+   height: 44px;
+   color: white;
+   width: auto;
+   font-size: 18px;
+   font-weight: 100;
+   background-color: black;
+   margin: 1.5em 0 0 0;
+}
+.register-button:hover {
+   background: #ffffff;
+   border: solid black 1px;
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;;
+   border-radius: 20px;
+   color: black;
+   text-decoration: none;
+   -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+   -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+   box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+}
 .register-der{
-    background-image: url("../img/CoolKidsAloneTime.png");
+    background-image: url("../img/reading.jpeg");
     background-position: center;    
     background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 4rem;
 }
+
 
 @media (max-width: 600px) {
   .register-der{

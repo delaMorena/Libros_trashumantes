@@ -69,7 +69,9 @@ export const SignUp = () => {
 			<div className="row ">
 				<div className="col-lg-6 col-12 register-izq">
 					<div className="text-center my-3">
-						<h2>{store.token ? "Modifica tus datos" : "Por favor rellena tus datos"}</h2>
+						<h2 className="title-signup">
+							{store.token ? "Modifica tus datos" : "Por favor rellena tus datos"}
+						</h2>
 					</div>
 					<div className="col-lg-12 col-xs-12  register-izq-inside ">
 						<form>
@@ -150,7 +152,7 @@ export const SignUp = () => {
 					/>
 				</div> */}
 
-							<button type="button" className="btn btn-primary mt-4" onClick={HandleClickLogin}>
+							<button type="button" className="register-button" onClick={HandleClickLogin}>
 								{store.token ? "Actualizar datos" : "Registrarse"}
 							</button>
 						</form>
