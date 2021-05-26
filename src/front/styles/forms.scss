@@ -1,19 +1,44 @@
 .register{
-   background-image: linear-gradient(#151416, #ffffff00 70%) ;
-   color: whitesmoke;
+   color: #151416;
+   background-image: linear-gradient(#8b888854, #ffffff54 70%) ,url("../img/homelandscape.jpeg");
+   background-size: cover;
+   background-position: top;
+   font-family: 'Lato', sans-serif;
+    
 
 }
+.register-izq {
+    width: 700px;
+    // background: #ffffff54;
+    margin: 1em auto;
+    padding: 20px 10px;
+    // text-align: center;
+    border-radius: 8px;
+    box-shadow: 3px 3px 20px rgba(0,0,0,.6);
+    overflow: hidden;
+}
 .title-signup {
-    color: whitesmoke;
-    margin-top: 2rem;
+    padding: 0 1em;
+    color: #151416;
+    margin-top: 0.5em;
+    text-align: center;
 }
 .register-izq-inside{
-    padding: 2rem;
+    padding: 0.5em 2em;
     border-radius: 10px;
-    margin-left: 2rem;
+    color: #151416;
 }
+.form-label {
+    margin: 0.7em 0 ;
+    font-size: 1.1em;
+    // padding-bottom: 0;
+}
+// .form-control {
+//     padding: 0.4em;
+// }
 input::placeholder {
     font-family: 'Lato', sans-serif;
+    margin: 0;
 }
 .register-button {
    -webkit-border-radius: 20px;
@@ -26,7 +51,8 @@ input::placeholder {
    font-size: 18px;
    font-weight: 100;
    background-color: black;
-   margin: 1.5em 0 0 0;
+   margin: 2em auto 1em;
+   padding: 0 2em; 
 }
 .register-button:hover {
    background: #ffffff;
@@ -39,6 +65,7 @@ input::placeholder {
    -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
    -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
    box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+  
 }
 .register-der{
     background-image: url("../img/reading.jpeg");
@@ -46,6 +73,9 @@ input::placeholder {
     background-size: cover;
     background-repeat: no-repeat;
     margin-top: 4rem;
+}
+.inicio-input-style {
+    margin-top: 3.1em;
 }
 
 
