@@ -1,29 +1,44 @@
-.bg-mountains {
-    background-image: linear-gradient(to top, #ffffff00, #000000c9 70%) ,url(../img/homelandscape.jpeg);
-    background-size: cover;
-    background-position: top;
-    background-attachment: fixed;
+.hero {
+    // background-image: linear-gradient(135deg, #667eea86 0%, #764ba28e 100%),url(../img/piemonte.jpeg);
+    // background-size: cover;
+    // background-position: center;
+    // background-attachment: fixed;
     color: white;
     padding: 2em;
     width:100%;
-    height:700px;
+    height: 543px;
+    margin: 4em auto;
+}
+
+.hero__title {
+        letter-spacing: -0.1em;
+}
+.hero .hero__paragraph--dimensions{
+    width: 55%;
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-top: 1em;
+
+}
+.hero__paragraph__span--dimensions {
+    margin-top: 0;
 }
 .bg-books {
-    background-image: url(../img/library.jpeg);
+    background-image: linear-gradient(135deg, #667eea56 0%, #764ba250 100%), url(../img/library.jpeg);
     background-size: cover;
     justify-content: flex-end;
     align-content: center;  
     width:auto;
-    height:1000px;
+    height: 700px;
     margin: auto;
     background-attachment: fixed;
 }
 .pseudomodal {
-    // 
+    margin: 2em 0;
     width: 100px;
     height: 200px;
     position: relative;
-    
+    color: #fff;
 }
 .title-instructions {
     margin-bottom: 1em;
@@ -31,9 +46,10 @@
     
 }
 li {
-    font-size: 1.5em;
+    font-size: 1em;
     list-style-type: decimal;
     padding: 0.5em;
+  
 }
 
 ul{
@@ -49,10 +65,10 @@ li{
 li::before{
     content:  counter(contador);
     counter-increment: contador;
-    background: black;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     width: 30px;
     height: 30px;
-    color: #fff;
+    // color: #fff;
     display: inline-block;
     text-align: center;
     line-height: 30px;
@@ -62,27 +78,27 @@ li::before{
 .call-to-action {
     -webkit-border-radius: 20px;
    -moz-border-radius: 20px;
-   border: solid black 1px;
+   border: none;
    border-radius: 20px;
    height: 44px;
    color: white;
    width: auto;
    font-size: 18px;
    font-weight: 100;
-   background-color: black;
+   background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
    margin: 0.5em 0 0 8em;
    padding: 0 2em;
 }
 .call-to-action:hover {
-   background: #ffffff;
-   border: solid black 1px;
-   -webkit-border-radius: 20px;
-   -moz-border-radius: 20px;;
-   border-radius: 20px;
-   color: black;
-   text-decoration: none;
-   -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
-   -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+   background-image:linear-gradient(135deg, #667eea86 0%, #764ba28e 100%);
+//    border: solid black 1px;
+//    -webkit-border-radius: 20px;
+//    -moz-border-radius: 20px;;
+//    border-radius: 20px;
+//    color: black;
+//    text-decoration: none;
+//    -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+//    -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
    box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
 }
 .push-footer {

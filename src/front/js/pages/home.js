@@ -9,14 +9,20 @@ export const Home = () => {
 
 	return (
 		<div>
-			<div className="bg-mountains">
-				<div className="mt-3">
+			<div className="container hero">
+				<div className="hero__title">
 					<h1>Eres del Valle de Tena </h1>
 					<h1>Te gusta leer </h1>
-					<h4 className="mt-5">Resides en algún pueblo de la Comarca Alto-Gállego</h4>
-					<h4>Pero todas las bibliotecas están cerradas o sus horarios no te cuadran...</h4>
 				</div>
-				<div />
+				<div className="hero__paragraph hero__paragraph--dimensions">
+					<p>
+						Devoras libros, revistas, cuentos...¡Todo lo que cae en tus manos! Solías ser una ratita de
+						biblioteca y ahora están cerradas o sus horarios no te cuadran...{" "}
+					</p>
+					<span className="hero__paragraph__span--dimensions ">
+						¡NECESITAS LIBROS URGENTEMENTE! Sigue leyendo, podemos ayudarte ;)
+					</span>
+				</div>
 			</div>
 
 			<div className="mt-1 row  bg-books">

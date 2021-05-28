@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
+import "../../styles/forms.scss";
 
 export const LogIn = () => {
 	const { store, actions } = useContext(Context);
@@ -34,9 +35,9 @@ export const LogIn = () => {
 	// };
 
 	return (
-		<div>
-			Inicia sesión
-			<form>
+		<div className="register container">
+			<h2 className="title-signup ">Inicia sesión</h2>
+			<form className="login__form--dimensions login__form--pushfooter">
 				<div className="mb-3">
 					<label className="form-label" htmlFor="InputEmail">
 						Email address
@@ -62,10 +63,11 @@ export const LogIn = () => {
 						onChange={event => setPassword(event.target.value)}
 					/>
 				</div>
-				<button type="button" className="btn btn-primary" onClick={() => handleSubmit()}>
+				<button type="button" className="register-button" onClick={() => handleSubmit()}>
 					Submit
 				</button>
 			</form>
+			{/* <div className="push-footer"> hola</div> */}
 		</div>
 	);
 };

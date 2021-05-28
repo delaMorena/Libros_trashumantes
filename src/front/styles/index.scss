@@ -1,6 +1,11 @@
 /* 
     General Styles
 */
+body {
+    background-image: linear-gradient(135deg, #667eea86 0%, #764ba28e 100%),url(../img/piemonte.jpeg);
+    background-size: cover;
+    background-position: center;
+}
 h1 {
     font-size: 4rem;
     font-family: 'Montserrat', sans-serif;
@@ -9,6 +14,9 @@ h1 {
 }
 h2, h3, h4, p, li, input::placeholder {
     font-family: 'Lato', sans-serif;
+}
+.bold {
+    font-weight: 500;
 }
 
 .button-primary {
@@ -72,3 +80,5 @@ h2, h3, h4, p, li, input::placeholder {
 //    -moz-box-shadow: 1px 1px 108px 0 rgba(105, 103, 103, 0.712);
 //    box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
 }
+
+

@@ -1,12 +1,12 @@
 .register{
-   color: #151416;
-   background-image: linear-gradient(#8b888854, #ffffff54 70%) ,url("../img/homelandscape.jpeg");
-   background-size: cover;
-   background-position: top;
+//    color: #151416;
+//    background-image: linear-gradient(#8b888854, #ffffff54 70%) ,url("../img/homelandscape.jpeg");
+//    background-size: cover;
+//    background-position: top;
+    color: #fff;
    font-family: 'Lato', sans-serif;
-    
-
 }
+
 .register-izq {
     width: 700px;
     // background: #ffffff54;
@@ -14,19 +14,19 @@
     padding: 20px 10px;
     // text-align: center;
     border-radius: 8px;
-    box-shadow: 3px 3px 20px rgba(0,0,0,.6);
+    // box-shadow: 3px 3px 20px rgba(0,0,0,.6);
     overflow: hidden;
+
 }
 .title-signup {
     padding: 0 1em;
-    color: #151416;
     margin-top: 0.5em;
     text-align: center;
 }
 .register-izq-inside{
     padding: 0.5em 2em;
     border-radius: 10px;
-    color: #151416;
+    
 }
 .form-label {
     margin: 0.7em 0 ;
@@ -43,27 +43,28 @@ input::placeholder {
 .register-button {
    -webkit-border-radius: 20px;
    -moz-border-radius: 20px;
-   border: solid black 1px;
+   border: none;
    border-radius: 20px;
    height: 44px;
    color: white;
    width: auto;
    font-size: 18px;
    font-weight: 100;
-   background-color: black;
+   background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
    margin: 2em auto 1em;
    padding: 0 2em; 
 }
 .register-button:hover {
-   background: #ffffff;
-   border: solid black 1px;
-   -webkit-border-radius: 20px;
-   -moz-border-radius: 20px;;
-   border-radius: 20px;
-   color: black;
-   text-decoration: none;
-   -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
-   -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+    background-image:linear-gradient(135deg, #667eea86 0%, #764ba28e 100%);
+//    border: solid black 1px;
+//    border: solid black 1px;
+//    -webkit-border-radius: 20px;
+//    -moz-border-radius: 20px;;
+//    border-radius: 20px;
+//    color: black;
+//    text-decoration: none;
+//    -webkit-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
+//    -moz-box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
    box-shadow: 1px 1px 88px 0 rgba(105, 103, 103, 0.712);
   
 }
@@ -89,4 +90,10 @@ input::placeholder {
   .register-izq-inside{
       margin-left: 0;
   }
+}
+.login__form--dimensions {
+    width: 50%;
+}
+.login__form--pushfooter {
+    margin: 3em auto 20em;
 }
